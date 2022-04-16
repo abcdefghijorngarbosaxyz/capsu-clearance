@@ -1,0 +1,27 @@
+{
+  "registrar": {
+    "signed": "Pending",
+    "signedDate": "2022-04-07T17:47:24.000+00:00",
+    "signedBy": "Jorn Garb"
+  },
+  "library": {
+    "signed": "Signed",
+    "signedDate": "2022-04-07T17:47:24.000+00:00",
+    "signedBy": "Jorn Garb"
+  },
+  "cashier": {
+    "signed": "Signed",
+    "signedDate": "2022-04-07T17:47:24.000+00:00",
+    "signedBy": "Jorn Garb"
+  },
+  "affairs": {
+    "signed": "Pending",
+    "signedDate": "2022-04-07T17:47:24.000+00:00",
+    "signedBy": "Jorn Garb"
+  },
+  "department": {
+    "signed": "Signed",
+    "signedDate": "2022-04-07T17:47:24.000+00:00",
+    "signedBy": "Jorn Garb"
+  }
+}
