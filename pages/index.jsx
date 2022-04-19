@@ -1,5 +1,6 @@
 import { getSession } from "next-auth/react";
 import Head from "next/head";
+import dbconnect from "../lib/dbconnect";
 export default function Home() {
   return (
     <div>
@@ -12,6 +13,8 @@ export default function Home() {
 
 export const getServerSideProps = async (context) => {
   const { req } = context;
+  // dbconnect - REMOVE ON PRODUCTION
+  await dbconnect();
   const session = await getSession({ req });
   if (!session) {
     return {

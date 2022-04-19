@@ -1,0 +1,17 @@
+POST "http://localhost:3000/api/admin/newsemesterstatus"
+Content-Type: application/json
+
+{
+    "studentid": "62488c0419ba943de5e856bb",
+    "schoolyear": 2022,
+    "semester": 1
+}
+###
+POST "http://localhost:3000/api/admin/sendnotification"
+Content-Type: application/json
+
+{
+    "studentid": "62488c0419ba943de5e856bb",
+    "notificationMessage": "Hello",
+    "notificationOffice": "Registrar"
+}

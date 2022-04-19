@@ -1,5 +1,5 @@
-import dbconnect from "../../../lib/dbconnect";
-import Student from "../../../models/Student";
+import dbconnect from "../../../../lib/dbconnect";
+import Student from "../../../../models/Student";
 
 export default async function handler(req, res) {
   const {

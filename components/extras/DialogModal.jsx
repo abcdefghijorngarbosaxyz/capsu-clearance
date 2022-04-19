@@ -5,10 +5,12 @@ export default function DialogModal({
   open,
   type,
   sendModalState,
+  submitAction,
   title,
   body,
   close,
   flash,
+  children,
 }) {
   return (
     <>
@@ -65,10 +67,11 @@ export default function DialogModal({
                       {flash}
                     </h1>
                   )}
+                  {children}
                   <p className="text-sm text-gray-400">{body}</p>
                 </div>
 
-                <div className="mt-4">
+                <div className="mt-4 flex justify-end">
                   <button
                     type="button"
                     className="inline-flex justify-center rounded-md border border-transparent bg-sky-400 px-4 py-2 text-sm font-medium text-white hover:bg-sky-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:text-gray-900"
@@ -76,6 +79,18 @@ export default function DialogModal({
                   >
                     {close}
                   </button>
+                  {type === "submit" && (
+                    <button
+                      type="button"
+                      className="ml-4 inline-flex justify-center rounded-md border border-transparent bg-sky-400 px-4 py-2 text-sm font-medium text-white hover:bg-sky-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:text-gray-900"
+                      onClick={() => {
+                        submitAction();
+                        sendModalState(false);
+                      }}
+                    >
+                      Apply
+                    </button>
+                  )}
                 </div>
               </div>
             </Transition.Child>

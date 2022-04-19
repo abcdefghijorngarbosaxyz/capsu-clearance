@@ -94,6 +94,10 @@ const StudentSchema = new mongoose.Schema({
         type: Number,
         default: 1,
       },
+      period: {
+        type: String,
+        default: "Midterm",
+      },
       status: {
         registrar: {
           signed: {
@@ -106,7 +110,7 @@ const StudentSchema = new mongoose.Schema({
           },
           signedBy: {
             type: String,
-            default: null,
+            default: "",
           },
         },
         department: {
@@ -120,7 +124,7 @@ const StudentSchema = new mongoose.Schema({
           },
           signedBy: {
             type: String,
-            default: null,
+            default: "",
           },
         },
         collection: {
@@ -134,7 +138,7 @@ const StudentSchema = new mongoose.Schema({
           },
           signedBy: {
             type: String,
-            default: null,
+            default: "",
           },
         },
         library: {
@@ -148,7 +152,7 @@ const StudentSchema = new mongoose.Schema({
           },
           signedBy: {
             type: String,
-            default: null,
+            default: "",
           },
         },
         affairs: {
@@ -162,7 +166,7 @@ const StudentSchema = new mongoose.Schema({
           },
           signedBy: {
             type: String,
-            default: null,
+            default: "",
           },
         },
       },

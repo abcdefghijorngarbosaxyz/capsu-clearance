@@ -33,15 +33,15 @@ const nextAuthOptions = (req, res) => {
           token.username = user.username;
           token.department = user.department;
           token.userphoto = user.userphoto;
-          token.notifications = user.notifications;
           token.yearlevel = user.yearlevel;
           token.section = user.section;
           token.middlename = user.middlename;
+          token.applieddate = user.applied.appliedDate;
         }
 
         return token;
       },
-      session: ({ session, token }) => {
+      session: ({ session, token, user }) => {
         if (token) {
           session.id = token.id;
           session.role = token.role;
@@ -50,10 +50,10 @@ const nextAuthOptions = (req, res) => {
           session.username = token.username;
           session.department = token.department;
           session.userphoto = token.userphoto;
-          session.notifications = token.notifications;
           session.yearlevel = token.yearlevel;
           session.section = token.section;
           session.middlename = token.middlename;
+          session.applieddate = token.applieddate;
         }
 
         return session;

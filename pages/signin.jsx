@@ -83,7 +83,7 @@ export default function Signin({ csrfToken }) {
           <div className="my-6 flex h-fit w-full items-center justify-center rounded-md md:pr-20">
             {isFetching && (
               <div className="mb-2">
-                <Spinner />
+                <Spinner color="bg-sky-500/20" />
               </div>
             )}
             {errorMessage && (

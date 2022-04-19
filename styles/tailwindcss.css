@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+#clearancedoc {
+  font-family: Times New Roman;
+}
+
 #password::-ms-reveal {
   display: none;
 }

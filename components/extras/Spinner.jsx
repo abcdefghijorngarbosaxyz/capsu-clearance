@@ -1,9 +1,9 @@
-export default function Spinner() {
+export default function Spinner({ color }) {
   return (
     <div className="spinner-extra flex space-x-1">
-      <div className="h-2 w-2 animate-bounce rounded-full bg-sky-500/[0.5]"></div>
-      <div className="h-2 w-2 animate-bounce rounded-full bg-sky-500/[0.5]"></div>
-      <div className="h-2 w-2 animate-bounce rounded-full bg-sky-500/[0.5]"></div>
+      <div className={`${color} h-2 w-2 animate-bounce rounded-full`}></div>
+      <div className={`${color} h-2 w-2 animate-bounce rounded-full`}></div>
+      <div className={`${color} h-2 w-2 animate-bounce rounded-full`}></div>
     </div>
   );
 }

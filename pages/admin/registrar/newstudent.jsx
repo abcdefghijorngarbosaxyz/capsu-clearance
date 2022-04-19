@@ -13,6 +13,7 @@ import $ from "jquery";
 import RandExp from "randexp";
 import DialogModal from "../../../components/extras/DialogModal";
 import axios from "axios";
+import SideBar from "../../../components/SideBar.Registrar";
 
 const courses = [
   { id: 1, name: "BS in Criminology", alt: "BSCrim" },
@@ -58,7 +59,7 @@ export default function AddNewStudent() {
     if (studentidError === "invalid") return;
 
     const { data } = await axios.post(
-      "/api/admin/newstudent",
+      "/api/admin/registrar/newstudent",
       {
         username: studentid,
         password,
@@ -97,7 +98,9 @@ export default function AddNewStudent() {
         <title>Add New Student | Registrar</title>
       </Head>
       <TopBar />
-      <div className="h-full w-1/4 bg-sky-500"></div>
+      <div className="h-full w-1/4">
+        <SideBar />
+      </div>
       <div className="h-full w-3/4 px-8">
         <div className="prose prose-slate py-8 dark:prose-invert">
           <h1>Add new student</h1>
@@ -367,6 +370,7 @@ export default function AddNewStudent() {
               name="password"
               id="password"
               placeholder="a1-b2c"
+              onChange={(event) => setPassword(event.target.value)}
               className="mt-1 block w-full rounded-md border-transparent placeholder:text-gray-300 focus:border-sky-500 focus:outline-none focus:ring-sky-500 focus-visible:border-sky-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-sky-300 sm:text-sm"
             />
             {isReveal ? (
