@@ -7,7 +7,7 @@ Content-Type: application/json
     "semester": 1
 }
 ###
-POST "http://localhost:3000/api/admin/sendnotification"
+POST "https://capsu-clearance.vercel.app/api/admin/sendnotification"
 Content-Type: application/json
 
 {

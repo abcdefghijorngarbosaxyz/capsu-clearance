@@ -414,7 +414,7 @@ export default function StudentHome({
           ) : (
             <div className="flex flex-col items-center space-y-4 py-8">
               <h3 className="text-lg font-bold text-white">
-                You haven't applied for clearance yet.
+                You haven&apos;t applied for clearance yet.
               </h3>
               <button
                 className="rounded-md bg-gray-100 py-2 px-4 text-sm font-semibold text-black shadow-md hover:bg-white"
@@ -593,18 +593,19 @@ export default function StudentHome({
 export const getServerSideProps = async (context) => {
   const { req, res } = context;
   const session = await getSession({ req });
+  const host = "https://" + process.env.HOST || "https://" + process.env.HOSTNAME || "http://localhost:3000"
   const { data: period } = await axios.get(
-    "http://localhost:3000/api/getperiod"
+    host + "/api/getperiod"
   );
   if (session) {
     const { role } = session;
     if (role === "Student") {
       const { data: applied } = await axios.post(
-        "http://localhost:3000/api/student/isapplied",
+        host + "/api/student/isapplied",
         { studentid: session.id }
       );
       const { data: approved } = await axios.post(
-        "http://localhost:3000/api/student/isapproved",
+        host + "/api/student/isapproved",
         { studentid: session.id }
       );
       return {

@@ -1,14 +1,7 @@
-import {
-  getCurrentYear,
-  getCurrentSemester,
-} from "../../../../lib/clearanceperiod";
-
 import Student from "../../../../models/Student";
 
 export default async function handler(req, res) {
-  const { studentid } = req.body;
-  const semester = getCurrentSemester();
-  const schoolyear = getCurrentYear();
+  const { studentid, semester, schoolyear } = req.body;
 
   try {
     await Student.findByIdAndUpdate(studentid, {
