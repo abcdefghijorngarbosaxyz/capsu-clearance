@@ -7,6 +7,7 @@ import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/outline";
 
 export default function SideBar({ session, path }) {
+  const router = Router;
   const approvalOpen = useRouter().pathname.includes("approval");
   const completionOpen = useRouter().pathname.includes("completion");
   const manageOpen = !approvalOpen && !completionOpen;
@@ -67,7 +68,7 @@ export default function SideBar({ session, path }) {
   ];
 
   const currentLink = (link) => {
-    if (Router.pathname === link) return true;
+    if (router.pathname === link) return true;
     return false;
   };
 
