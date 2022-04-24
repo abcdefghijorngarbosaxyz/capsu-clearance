@@ -28,7 +28,6 @@ export default async function handler(req, res) {
     const data = await newstudent.save();
     res.status(201).json({ message: "New student added", id: data._id });
   } catch (error) {
-    console.log(error);
     res.status(400).json({ message: "Bad request" });
   }
 }

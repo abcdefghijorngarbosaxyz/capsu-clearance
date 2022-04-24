@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useState, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
 import TopBar from "../../../components/TopBar";
 import { Combobox, Transition, Listbox } from "@headlessui/react";
 import {
@@ -8,12 +8,15 @@ import {
   XIcon,
   EyeOffIcon,
   EyeIcon,
+  EmojiSadIcon,
+  EmojiHappyIcon,
 } from "@heroicons/react/outline";
 import $ from "jquery";
 import RandExp from "randexp";
 import DialogModal from "../../../components/extras/DialogModal";
 import axios from "axios";
 import SideBar from "../../../components/SideBar.Registrar";
+import { getSession } from "next-auth/react";
 
 const courses = [
   { id: 1, name: "BS in Criminology", alt: "BSCrim" },
@@ -30,7 +33,7 @@ const yearlevels = [
   { name: "4th year", value: 4 },
 ];
 
-export default function AddNewStudent() {
+export default function AddNewStudent({ session, endpoint, period }) {
   const [studentid, setStudentid] = useState("");
   const [password, setPassword] = useState("");
   const [firstname, setFirstname] = useState("");
@@ -42,7 +45,9 @@ export default function AddNewStudent() {
   const [courseQuery, setCourseQuery] = useState("");
   const [studentidError, setStudentidError] = useState("");
   const [passwdModalOpen, setPasswdModalOpen] = useState(false);
+  const [alertModalOpen, setAlertModalOpen] = useState(false);
   const [isReveal, setIsReveal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const filterCourses =
     courseQuery === ""
@@ -56,11 +61,10 @@ export default function AddNewStudent() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setErrorMessage("");
     if (studentidError === "invalid") return;
-
-    const { data } = await axios.post(
-      "/api/admin/registrar/newstudent",
-      {
+    try {
+      await axios.post("/api/admin/registrar/newstudent", {
         username: studentid,
         password,
         firstname,
@@ -68,15 +72,20 @@ export default function AddNewStudent() {
         lastname,
         department: selectedCourse.alt,
         yearlevel: selectedYearlevel.value,
-      },
-      { headers: { "Content-Type": "application/json" } }
-    );
-
-    console.log(data);
+      });
+      setAlertModalOpen(true);
+    } catch (error) {
+      setErrorMessage("ID Number already exists in the database");
+      setAlertModalOpen(true);
+    }
   };
 
   const sendPasswdModalState = (passwdModalOpen) => {
     setPasswdModalOpen(passwdModalOpen);
+  };
+
+  const sendAlertModalState = (alertModalOpen) => {
+    setAlertModalOpen(alertModalOpen);
   };
 
   const generatePassword = () => {
@@ -92,6 +101,10 @@ export default function AddNewStudent() {
     else setStudentidError("invalid");
   };
 
+  useEffect(() => {
+    $("#studentid").val(new Date().getFullYear() + "-");
+  }, []);
+
   return (
     <div className="flex h-screen w-screen pt-20">
       <Head>
@@ -99,7 +112,7 @@ export default function AddNewStudent() {
       </Head>
       <TopBar />
       <div className="h-full w-1/4">
-        <SideBar />
+        <SideBar session={session} />
       </div>
       <div className="h-full w-3/4 px-8">
         <div className="prose prose-slate py-8 dark:prose-invert">
@@ -396,7 +409,7 @@ export default function AddNewStudent() {
             >
               Generate password
             </button>
-          </div>
+          </div>{" "}
           <div className="col-span-6 flex justify-end">
             <button
               type="submit"
@@ -416,6 +429,58 @@ export default function AddNewStudent() {
         sendModalState={sendPasswdModalState}
         close="OK"
       />
+      <DialogModal
+        type="flash"
+        flash={
+          errorMessage ? (
+            <EmojiSadIcon className="h-20 w-20 text-red-500" />
+          ) : (
+            <EmojiHappyIcon className="h-20 w-20 text-green-500" />
+          )
+        }
+        open={alertModalOpen}
+        title={errorMessage ? "An error occured" : "Success"}
+        body={
+          errorMessage
+            ? "Please check if the student information are correct and there are no fields that are empty"
+            : "New student added"
+        }
+        sendModalState={sendAlertModalState}
+        close={errorMessage ? "Retry" : "OK"}
+      />
     </div>
   );
 }
+
+export const getServerSideProps = async (context) => {
+  const { req, res } = context;
+  const session = await getSession({ req });
+  const host =
+    (process.env.NODE_ENV === "development" ? "http://" : "https://") +
+    `${process.env.HOSTNAME}`;
+  const { data: period } = await axios.get(host + "/api/getperiod");
+  if (session) {
+    const { role } = session;
+    if (role === "Admin") {
+      return {
+        props: {
+          endpoint: process.env.SOCKETIO_ENDPOINT,
+          session,
+          period: period.period,
+        },
+      };
+    } else if (role === "Student")
+      return {
+        redirect: {
+          permanent: false,
+          destination: "/student",
+        },
+      };
+  }
+  return {
+    redirect: {
+      permanent: false,
+      destination: "/signin",
+    },
+  };
+};

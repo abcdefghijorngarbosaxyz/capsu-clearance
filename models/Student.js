@@ -94,7 +94,7 @@ const StudentSchema = new mongoose.Schema({
         type: Number,
         default: 1,
       },
-      period: {
+      term: {
         type: String,
         default: "Midterm",
       },

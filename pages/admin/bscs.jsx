@@ -16,7 +16,6 @@ export default function ComputerHome() {
   const handleSendMessage = async (event) => {
     event.preventDefault();
 
-    socket.emit("join room", userdata);
     const { data } = await axios.post("/api/admin/sendnotification", {
       studentid,
       notificationOffice: admindata.office,

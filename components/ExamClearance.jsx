@@ -4,7 +4,7 @@ export default function ExamClearance({ period, session }) {
   return (
     <div
       id="clearancedoc"
-      className="h-fit w-fit border border-black bg-white font-serif text-2xs"
+      className="h-fit w-fit border border-black text-black bg-white font-serif text-2xs"
     >
       <div className="flex h-[5rem] w-[22.9rem] border-b border-black">
         <div className="h-full w-[3.9rem] border-r border-black py-2">

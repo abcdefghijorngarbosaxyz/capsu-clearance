@@ -1,7 +1,7 @@
 import Student from "../../../../models/Student";
 
 export default async function handler(req, res) {
-  const { studentid, semester, schoolyear } = req.body;
+  const { studentid, semester, schoolyear, term } = req.body;
 
   try {
     await Student.findByIdAndUpdate(studentid, {
@@ -14,6 +14,7 @@ export default async function handler(req, res) {
             {
               schoolyear,
               semester,
+              term,
             },
           ],
           $position: 0,

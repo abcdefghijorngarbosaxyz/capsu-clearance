@@ -11,6 +11,7 @@ export default function DialogModal({
   close,
   flash,
   children,
+  submitButton,
 }) {
   return (
     <>
@@ -54,45 +55,51 @@ export default function DialogModal({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="my-8 inline-block w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-gray-900">
-                <Dialog.Title
-                  as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900 dark:text-white"
-                >
-                  {title}
-                </Dialog.Title>
-                <div className="mt-2">
-                  {type === "flash" && (
-                    <h1 className="flex h-fit w-full justify-center p-8 text-6xl font-bold text-gray-900 dark:text-white">
-                      {flash}
-                    </h1>
-                  )}
+              {type === "custom" ? (
+                <div className="my-8 inline-block w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-gray-900">
                   {children}
-                  <p className="text-sm text-gray-400">{body}</p>
                 </div>
-
-                <div className="mt-4 flex justify-end">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-sky-400 px-4 py-2 text-sm font-medium text-white hover:bg-sky-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:text-gray-900"
-                    onClick={() => sendModalState(false)}
+              ) : (
+                <div className="my-8 inline-block w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-gray-900">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900 dark:text-white"
                   >
-                    {close}
-                  </button>
-                  {type === "submit" && (
+                    {title}
+                  </Dialog.Title>
+                  <div className="mt-2">
+                    {type === "flash" && (
+                      <h1 className="flex h-fit w-full justify-center p-8 text-6xl font-bold text-gray-900 dark:text-white">
+                        {flash}
+                      </h1>
+                    )}
+                    {children}
+                    <p className="text-sm text-gray-400">{body}</p>
+                  </div>
+
+                  <div className="mt-4 flex justify-end">
                     <button
                       type="button"
-                      className="ml-4 inline-flex justify-center rounded-md border border-transparent bg-sky-400 px-4 py-2 text-sm font-medium text-white hover:bg-sky-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:text-gray-900"
-                      onClick={() => {
-                        submitAction();
-                        sendModalState(false);
-                      }}
+                      className="inline-flex justify-center rounded-md border border-transparent bg-sky-400 px-4 py-2 text-sm font-medium text-white hover:bg-sky-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:text-gray-900"
+                      onClick={() => sendModalState(false)}
                     >
-                      Apply
+                      {close}
                     </button>
-                  )}
+                    {type === "submit" && (
+                      <button
+                        type="button"
+                        className="ml-4 inline-flex justify-center rounded-md border border-transparent bg-sky-400 px-4 py-2 text-sm font-medium text-white hover:bg-sky-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:text-gray-900"
+                        onClick={() => {
+                          submitAction();
+                          sendModalState(false);
+                        }}
+                      >
+                        {submitButton}
+                      </button>
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
             </Transition.Child>
           </div>
         </Dialog>

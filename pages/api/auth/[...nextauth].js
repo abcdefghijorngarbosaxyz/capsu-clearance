@@ -36,7 +36,9 @@ const nextAuthOptions = (req, res) => {
           token.yearlevel = user.yearlevel;
           token.section = user.section;
           token.middlename = user.middlename;
-          token.applieddate = user.applied.appliedDate;
+          token.office = user.office;
+          token.applieddate =
+            user.role === "Admin" ? null : user.applied.appliedDate;
         }
 
         return token;
@@ -52,6 +54,7 @@ const nextAuthOptions = (req, res) => {
           session.userphoto = token.userphoto;
           session.yearlevel = token.yearlevel;
           session.section = token.section;
+          session.office = token.office;
           session.middlename = token.middlename;
           session.applieddate = token.applieddate;
         }

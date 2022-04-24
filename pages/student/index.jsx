@@ -100,7 +100,7 @@ export default function StudentHome({
       studentid: session.id,
     });
     if (data && data.message === "Applied") {
-      socket.emit("clearance list registrar");
+      socket.emit("clearance list registrar update", session.department);
       setApplied(true);
       setLoadingClearance(false);
     }
@@ -572,6 +572,7 @@ export default function StudentHome({
           title="Apply for examination clearance"
           sendModalState={sendApplyModalState}
           close="Cancel"
+          submitButton="Apply"
         >
           <div className="my-8 flex justify-center text-sm text-gray-400">
             {period &&
@@ -593,10 +594,10 @@ export default function StudentHome({
 export const getServerSideProps = async (context) => {
   const { req, res } = context;
   const session = await getSession({ req });
-  const host = "https://" + process.env.HOST || "https://" + process.env.HOSTNAME || "http://localhost:3000"
-  const { data: period } = await axios.get(
-    host + "/api/getperiod"
-  );
+  const host =
+    (process.env.NODE_ENV === "development" ? "http://" : "https://") +
+    `${process.env.HOSTNAME}`;
+  const { data: period } = await axios.get(host + "/api/getperiod");
   if (session) {
     const { role } = session;
     if (role === "Student") {
