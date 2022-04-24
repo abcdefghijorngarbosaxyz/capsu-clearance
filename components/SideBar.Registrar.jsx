@@ -1,13 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import ScrollArea from "../components/extras/ScrollArea";
 import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/outline";
 
 export default function SideBar({ session, path }) {
-  const router = Router;
   const approvalOpen = useRouter().pathname.includes("approval");
   const completionOpen = useRouter().pathname.includes("completion");
   const manageOpen = !approvalOpen && !completionOpen;
@@ -68,7 +67,7 @@ export default function SideBar({ session, path }) {
   ];
 
   const currentLink = (link) => {
-    if (router.pathname === link) return true;
+    if (path === link) return true;
     return false;
   };
 

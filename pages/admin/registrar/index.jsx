@@ -18,7 +18,7 @@ export default function RegistrarHome({ session, endpoint, period }) {
         </Head>
         <TopBar />
         <div className="h-full w-1/4">
-          <SideBar session={session} />
+          <SideBar path="/admin/registrar" session={session} />
         </div>
         <form method="post" action="/api/admin/registrar/newsemesterstatus">
           <input name="studentid" placeholder="Student ID"></input>
