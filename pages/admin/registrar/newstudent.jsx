@@ -112,7 +112,7 @@ export default function AddNewStudent({ session, endpoint, period }) {
       </Head>
       <TopBar />
       <div className="h-full w-1/4">
-        <SideBar session={session} />
+        <SideBar path="/admin/registrar/newstudent" session={session} />
       </div>
       <div className="h-full w-3/4 px-8">
         <div className="prose prose-slate py-8 dark:prose-invert">
