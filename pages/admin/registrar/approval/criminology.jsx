@@ -143,7 +143,13 @@ export default function Approval({ session, period, endpoint }) {
         <div className="w-14">
           {photo ? (
             <div className="relative h-10 w-10 rounded-full">
-              <Image src={photo} layout="fill" />
+              <Image
+                alt="Userphoto"
+                src={photo}
+                layout="fill"
+                objectFit="cover"
+                className="rounded-full"
+              />
             </div>
           ) : (
             <div
