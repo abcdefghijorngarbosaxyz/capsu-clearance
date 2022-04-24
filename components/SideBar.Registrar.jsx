@@ -7,8 +7,8 @@ import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/outline";
 
 export default function SideBar({ session, path }) {
-  const approvalOpen = useRouter().pathname.includes("approval");
-  const completionOpen = useRouter().pathname.includes("completion");
+  const approvalOpen = Router.pathname.includes("approval");
+  const completionOpen = Router.pathname.includes("completion");
   const manageOpen = !approvalOpen && !completionOpen;
   const approval = [
     {
