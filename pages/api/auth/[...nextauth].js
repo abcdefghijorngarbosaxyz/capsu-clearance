@@ -63,7 +63,7 @@ const nextAuthOptions = (req, res) => {
       },
     },
     session: {
-      maxAge: isPersist ? 60 * 60 * 24 * 30 : 60 * 60,
+      maxAge: isPersist ? 60 * 60 * 24 * 30 : 60,
     },
     secret: process.env.NEXTAUTH_SECRET,
     jwt: {
