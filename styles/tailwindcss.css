@@ -6,6 +6,24 @@
   font-family: Times New Roman;
 }
 
+.svg-progress {
+  display: block;
+  margin: 20px auto;
+  max-width: 100%;
+}
+
+.svg-circle-bg {
+  fill: none;
+}
+
+.svg-circle {
+  fill: none;
+}
+
+.svg-circle-text {
+  text-anchor: middle;
+}
+
 .textarea,
 .textarea-sizer {
   word-wrap: break-word;

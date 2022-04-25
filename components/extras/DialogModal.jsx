@@ -56,7 +56,7 @@ export default function DialogModal({
               leaveTo="opacity-0 scale-95"
             >
               {type === "custom" ? (
-                <div className="my-8 inline-block w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all dark:bg-gray-900">
+                <div className="inline-block w-full max-w-md transform overflow-hidden rounded-2xl text-left align-middle shadow-xl transition-all dark:bg-gray-900">
                   {children}
                 </div>
               ) : (

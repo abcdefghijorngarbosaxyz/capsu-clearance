@@ -219,10 +219,13 @@ export default function Signin({ csrfToken }) {
                 </div>
                 <div className="flex h-fit w-1/2 items-center">
                   <input
-                    onClick={(event) => setPersist(event.target.checked)}
+                    onClick={(event) => {
+                      setPersist(event.target.checked);
+                    }}
                     id="remember-me"
                     name="remember-me"
                     type="checkbox"
+                    value={isPersist}
                     className="h-4 w-4 rounded border-gray-500 bg-transparent text-sky-500 focus:outline-sky-500 focus:ring-transparent focus:ring-offset-transparent"
                   />
                   <label

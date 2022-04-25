@@ -5,7 +5,7 @@ import Admin from "../../../models/Admin";
 import Student from "../../../models/Student";
 
 const nextAuthOptions = (req, res) => {
-  var isPersist = req.body.persist;
+  var persist = req.body.persist;
   return {
     providers: [
       CredentialProvider({
@@ -63,7 +63,7 @@ const nextAuthOptions = (req, res) => {
       },
     },
     session: {
-      maxAge: isPersist ? 60 * 60 * 24 * 30 : 60,
+      maxAge: persist ? 60 * 60 * 24 * 30 : 60 * 60,
     },
     secret: process.env.NEXTAUTH_SECRET,
     jwt: {
