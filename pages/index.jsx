@@ -31,7 +31,7 @@ export const getServerSideProps = async (context) => {
         destination: "/student",
       },
     };
-  else if (session.role === "Admin" && !session.office === "Department") {
+  else if (session.role === "Admin" && session.office !== "Department") {
     const goadmin = "/admin/" + session.department.toLowerCase();
     return {
       redirect: {
