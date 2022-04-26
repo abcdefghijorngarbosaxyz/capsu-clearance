@@ -109,7 +109,7 @@ export default function Approval({ session, period, endpoint }) {
           socket.emit("clearance library update", course.short);
           socket.emit("clearance osa update", course.short);
           socket.emit(
-            "clearance" + course.short.toLowerCase() + "update",
+            "clearance " + course.short.toLowerCase() + " update",
             course.short
           );
         }

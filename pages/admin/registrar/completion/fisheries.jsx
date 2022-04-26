@@ -119,8 +119,10 @@ export default function Completion({ session, period, endpoint }) {
         studentid: selectedId,
         signedby: session.firstname + " " + session.lastname,
       });
-      if (data.message === "Signed")
+      if (data.message === "Signed") {
         socket.emit("clearance complete registrar update", course.short);
+        socket.emit("clearance status update", { id: selectedId });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -293,11 +295,11 @@ export default function Completion({ session, period, endpoint }) {
                               : item[0] === "library"
                               ? "Library "
                               : item[0] === "collection"
-                              ? "Cashier "
+                              ? "Collecting & Disbursing "
                               : item[0] === "affairs"
                               ? "Student Affairs "
                               : item[0] === "department"
-                              ? "Dean - " + session.department + " "
+                              ? "Dean / Program Chair"
                               : null}
                           </span>
                           {item[1].signed === "Signed" ? (

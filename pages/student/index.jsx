@@ -319,11 +319,11 @@ export default function StudentHome({
                                     : item[0] === "library"
                                     ? "Library "
                                     : item[0] === "collection"
-                                    ? "Cashier "
+                                    ? "Collecting & Disbursing"
                                     : item[0] === "affairs"
                                     ? "Student Affairs "
                                     : item[0] === "department"
-                                    ? "Dean - " + session.department + " "
+                                    ? "Dean / Program Chair"
                                     : null}
                                 </span>
                                 {item[1].signed === "Signed" ? (

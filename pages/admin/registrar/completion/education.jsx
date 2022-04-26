@@ -119,8 +119,10 @@ export default function Completion({ session, period, endpoint }) {
         studentid: selectedId,
         signedby: session.firstname + " " + session.lastname,
       });
-      if (data.message === "Signed")
+      if (data.message === "Signed") {
         socket.emit("clearance complete registrar update", course.short);
+        socket.emit("clearance status update", { id: selectedId });
+      }
     } catch (error) {
       console.log(error);
     }

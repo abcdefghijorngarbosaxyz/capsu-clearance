@@ -6,37 +6,9 @@ import ScrollArea from "../components/extras/ScrollArea";
 import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/outline";
 
-export default function SideBarDean({ session, path }) {
+export default function SideBarDean({ session, path, course }) {
   const signOpen = useRouter().pathname.includes("sign");
   const manageOpen = !signOpen;
-  const sign = [
-    {
-      name: "Computer Science",
-      shortname: "computerscience",
-      link:
-        "/admin/" + session.department.toLowerCase() + "/sign/computerscience",
-    },
-    {
-      name: "Food Technology",
-      shortname: "foodtech",
-      link: "/admin/" + session.department.toLowerCase() + "/sign/foodtech",
-    },
-    {
-      name: "Fisheries",
-      shortname: "fisheries",
-      link: "/admin/" + session.department.toLowerCase() + "/sign/fisheries",
-    },
-    {
-      name: "Criminology",
-      shortname: "criminology",
-      link: "/admin/" + session.department.toLowerCase() + "/sign/criminology",
-    },
-    {
-      name: "Elementary Education",
-      shortname: "education",
-      link: "/admin/" + session.department.toLowerCase() + "/sign/education",
-    },
-  ];
 
   const currentLink = (link) => {
     if (path === link) return true;
@@ -72,12 +44,12 @@ export default function SideBarDean({ session, path }) {
                 {session.lastname}
               </h1>
               <h1 className="m-0 h-fit p-0 text-xs font-normal text-gray-400">
-                {session.department}
+                {session.department} Dean&apos;s Office
               </h1>
             </div>
           </div>
           <div className="mt-4 flex h-full w-full flex-col border-t border-gray-300/[0.5] pt-4 dark:border-gray-700/[0.5]">
-            <Link href={"/admin/" + session.department.toLowerCase()}>
+            <Link href={"/admin/dean/" + session.department.toLowerCase()}>
               <div className="group flex h-6 w-fit cursor-pointer items-center">
                 <div className="relative h-6 w-6">
                   <Image
@@ -88,7 +60,9 @@ export default function SideBarDean({ session, path }) {
                 </div>
                 <h4
                   className={`${
-                    currentLink("/admin/" + session.department.toLowerCase())
+                    currentLink(
+                      "/admin/dean/" + session.department.toLowerCase()
+                    )
                       ? "text-black dark:text-white"
                       : "text-slate-700 dark:text-slate-400"
                   } mb-6 pl-4 group-hover:text-black dark:group-hover:text-white `}
@@ -120,27 +94,27 @@ export default function SideBarDean({ session, path }) {
                     />
                   </Disclosure.Button>
                   <Disclosure.Panel className="my-4 ml-2">
-                    {sign.map((item, index) => (
-                      <Link key={index} href={item.link}>
-                        <div
-                          className={`group flex h-6 w-fit cursor-pointer items-center border-l py-5 pl-8 ${
-                            currentCourse("sign/" + item.shortname)
-                              ? "border-sky-500"
-                              : "border-gray-400 dark:border-gray-700"
-                          }`}
+                    <Link
+                      href={`/admin/dean/${session.department.toLowerCase()}/sign`}
+                    >
+                      <div
+                        className={`group flex h-6 w-fit cursor-pointer items-center border-l py-5 pl-8 ${
+                          currentCourse("sign")
+                            ? "border-sky-500"
+                            : "border-gray-400 dark:border-gray-700"
+                        }`}
+                      >
+                        <h4
+                          className={`${
+                            currentCourse("sign")
+                              ? "text-black dark:text-white"
+                              : "text-slate-700 dark:text-slate-400"
+                          } mb-6 pl-4 group-hover:text-black dark:group-hover:text-white `}
                         >
-                          <h4
-                            className={`${
-                              currentCourse("sign/" + item.shortname)
-                                ? "text-black dark:text-white"
-                                : "text-slate-700 dark:text-slate-400"
-                            } mb-6 pl-4 group-hover:text-black dark:group-hover:text-white `}
-                          >
-                            {item.name}
-                          </h4>
-                        </div>
-                      </Link>
-                    ))}
+                          {course.name}
+                        </h4>
+                      </div>
+                    </Link>
                   </Disclosure.Panel>
                 </>
               )}
@@ -170,7 +144,7 @@ export default function SideBarDean({ session, path }) {
                   <Disclosure.Panel className="my-4 ml-2">
                     <Link
                       href={
-                        "/admin/" +
+                        "/admin/dean/" +
                         session.department.toLowerCase() +
                         "/newadmin"
                       }
@@ -178,7 +152,7 @@ export default function SideBarDean({ session, path }) {
                       <div
                         className={`group flex h-6 w-fit cursor-pointer items-center border-l py-5 pl-8 ${
                           currentLink(
-                            "/admin/" +
+                            "/admin/dean/" +
                               session.department.toLowerCase() +
                               "/newadmin"
                           )
@@ -208,7 +182,9 @@ export default function SideBarDean({ session, path }) {
           </div>
           <div className="flex h-full w-full items-end border-b border-gray-300/[0.5] px-4 py-4 dark:border-gray-700/[0.5] lg:px-0">
             <Link
-              href={"/admin/" + session.department.toLowerCase() + "/settings"}
+              href={
+                "/admin/dean/" + session.department.toLowerCase() + "/settings"
+              }
             >
               <div className="group flex h-6 w-fit cursor-pointer items-center">
                 <div className="relative h-6 w-6">
