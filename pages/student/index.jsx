@@ -223,7 +223,11 @@ export default function StudentHome({
         >
           <div className="mb-4 h-fit w-full cursor-pointer rounded-lg bg-gradient-to-r from-orange-400 to-orange-600 py-4 dark:prose-invert">
             <SingleMessage
-              sender={newNotification.notificationOffice}
+              sender={
+                newNotification.notificationOffice === "Department"
+                  ? "Dean - " + session.department
+                  : newNotification.notificationOffice
+              }
               message={newNotification.notificationMessage}
               date={newNotification.notificationDate}
             />
@@ -239,7 +243,11 @@ export default function StudentHome({
                 className="mb-4 h-fit w-full rounded-lg bg-gradient-to-r from-amber-400 to-amber-600 py-4 dark:prose-invert"
               >
                 <SingleMessage
-                  sender={item.notificationOffice}
+                  sender={
+                    item.notificationOffice === "Department"
+                      ? "Dean - " + session.department
+                      : item.notificationOffice
+                  }
                   message={item.notificationMessage}
                   date={item.notificationDate}
                 />

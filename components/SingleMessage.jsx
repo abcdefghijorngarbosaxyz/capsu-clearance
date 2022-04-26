@@ -28,12 +28,15 @@ export default function SingleMessage({ sender, message, date }) {
         <figure className="dark:highlight-white/5 relative flex flex-col-reverse px-6">
           <p className="mt-6 text-white">{message}</p>
           <figcaption className="flex items-center space-x-4">
-            <img
-              src="https://pbs.twimg.com/profile_images/1344410501309030403/L2rNpO6h_400x400.jpg"
+            {/* <img
+              src="/assets/capsu-logo.png"
               alt="Message sender photo"
               className="h-14 w-14 flex-none rounded-full object-cover"
               loading="lazy"
-            />
+            /> */}
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-orange-900">
+              {sender.charAt(0)}
+            </div>
             <div className="flex-auto">
               <div className="text-base font-bold text-white">
                 <span className="absolute inset-0"></span>

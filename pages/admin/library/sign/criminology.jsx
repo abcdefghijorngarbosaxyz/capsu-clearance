@@ -1,7 +1,6 @@
 import { getSession } from "next-auth/react";
 import axios from "axios";
 import TopBar from "../../../../components/TopBar";
-import SideBar from "../../../../components/SideBar.Registrar";
 import Head from "next/head";
 import io from "socket.io-client";
 import { useEffect, useState } from "react";
@@ -10,33 +9,20 @@ import {
   SearchIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  DotsHorizontalIcon,
-  ArrowsExpandIcon,
-  PrinterIcon,
-  DocumentDownloadIcon,
 } from "@heroicons/react/outline";
-import {
-  EyeIcon,
-  MailIcon,
-  PencilIcon,
-  CheckCircleIcon,
-  ThumbUpIcon,
-} from "@heroicons/react/solid";
+import { MailIcon, ThumbUpIcon } from "@heroicons/react/solid";
 import DialogModal from "../../../../components/extras/DialogModal";
 import Image from "next/image";
-import { Disclosure, Tab, Transition } from "@headlessui/react";
-import ExamClearance from "../../../../components/ExamClearance";
-import { classNames } from "../../../../lib/classjoiner";
-import moment from "moment";
+import SideBarCLA from "../../../../components/SideBar.CLA";
 
 const course = {
-  name: "Computer Science",
-  short: "BSCS",
-  alt: "computerscience",
+  name: "Criminology",
+  short: "BSCrim",
+  alt: "criminology",
 };
 var socket;
 
-export default function Completion({ session, period, endpoint }) {
+export default function LibrarySign({ session, period, endpoint }) {
   socket = io(endpoint);
 
   const [socketconnected, setSocketconnected] = useState(false);
@@ -52,10 +38,7 @@ export default function Completion({ session, period, endpoint }) {
 
   const [signModalOpen, setSignModalOpen] = useState(false);
   const [messageModalOpen, setMessageModalOpen] = useState(false);
-  const [viewModalOpen, setViewModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState("");
-  const [selectedClearance, setSelectedClearance] = useState([]);
-  const [selectedStudent, setSelectedStudent] = useState({});
   const [message, setMessage] = useState("");
 
   const handleBack = () => {
@@ -100,10 +83,6 @@ export default function Completion({ session, period, endpoint }) {
     setMessageModalOpen(messageModalOpen);
   };
 
-  const sendViewModalState = (viewModalOpen) => {
-    setViewModalOpen(viewModalOpen);
-  };
-
   const handleMessage = async () => {
     const { data } = await axios.post("/api/admin/sendnotification", {
       studentid: selectedId,
@@ -115,35 +94,29 @@ export default function Completion({ session, period, endpoint }) {
 
   const handleSign = async () => {
     try {
-      const { data } = await axios.post("/api/admin/registrar/sign", {
+      const { data } = await axios.post("/api/admin/library/sign", {
         studentid: selectedId,
         signedby: session.firstname + " " + session.lastname,
       });
       if (data.message === "Signed") {
-        socket.emit("clearance complete registrar update", course.short);
+        socket.emit("clearance library update", course.short);
         socket.emit("clearance status update", { id: selectedId });
+        socket.emit("clearance complete registrar update", course.short);
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleViewClearance = async () => {
-    socket.emit("clearance status initial", { id: selectedId });
-    socket.on("clearance status data initial", (status) => {
-      setSelectedClearance(status);
-    });
-  };
-
   useEffect(() => {
     socket.on("connection", () => {
       setSocketconnected(true);
     });
-    socket.emit("clearance complete registrar initial", course.short);
-    socket.on("clearance complete data initial", (students) => {
+    socket.emit("clearance library initial", course.short);
+    socket.on("clearance library data initial", (students) => {
       setList(students);
     });
-    socket.on("clearance complete data update", (students) => {
+    socket.on("clearance library data update", (students) => {
       setList(students);
     });
   }, []);
@@ -205,27 +178,8 @@ export default function Completion({ session, period, endpoint }) {
             }}
             className="flex items-center text-xs text-sky-500 hover:text-sky-600"
           >
-            <PencilIcon className="h-5 w-5" />
+            <ThumbUpIcon className="h-5 w-5" />
             Sign
-          </button>
-          <button
-            onClick={() => {
-              setViewModalOpen(true);
-              setSelectedId(id);
-              handleViewClearance();
-              setSelectedStudent({
-                firstname: first,
-                lastname: last,
-                middlename: middle,
-                department: course.short,
-                yearlevel: year,
-                applieddate: new Date(),
-              });
-            }}
-            className="ml-4 flex items-center text-xs text-rose-500 hover:text-rose-600"
-          >
-            <EyeIcon className="h-5 w-5" />
-            View
           </button>
           <button
             onClick={() => {
@@ -243,155 +197,6 @@ export default function Completion({ session, period, endpoint }) {
     );
   };
 
-  const ClearanceView = () => {
-    return (
-      <Tab.Group>
-        <Tab.List className="flex space-x-1 rounded-xl bg-blue-900/[0.2] p-1">
-          <Tab
-            className={({ selected }) =>
-              classNames(
-                "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
-                "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
-                selected
-                  ? "bg-white shadow"
-                  : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
-              )
-            }
-          >
-            List View
-          </Tab>
-          <Tab
-            className={({ selected }) =>
-              classNames(
-                "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
-                "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
-                selected
-                  ? "bg-white shadow"
-                  : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
-              )
-            }
-          >
-            Document View
-          </Tab>
-        </Tab.List>
-        <Tab.Panels className="mt-2">
-          <Tab.Panel className="h-full ">
-            <div className="w-full">
-              <div className="w-full max-w-md rounded-2xl bg-white p-2">
-                {selectedClearance.map((item) => (
-                  <Disclosure as="div" className="mt-2" key={item[0]}>
-                    {({ open }) => (
-                      <>
-                        <Disclosure.Button
-                          className={`${
-                            item[1].signed === "Signed"
-                              ? "bg-green-100 hover:bg-green-200 focus-visible:ring-green-500"
-                              : "bg-yellow-100 hover:bg-yellow-200 focus-visible:ring-yellow-500"
-                          } flex w-full justify-between rounded-lg px-4 py-2 text-left text-sm font-medium focus:outline-none focus-visible:ring focus-visible:ring-opacity-75`}
-                        >
-                          <span className="flex text-black">
-                            {item[0] === "registrar"
-                              ? "Registrar "
-                              : item[0] === "library"
-                              ? "Library "
-                              : item[0] === "collection"
-                              ? "Cashier "
-                              : item[0] === "affairs"
-                              ? "Student Affairs "
-                              : item[0] === "department"
-                              ? "Dean - " + session.department + " "
-                              : null}
-                          </span>
-                          {item[1].signed === "Signed" ? (
-                            <span className="flex text-green-600">
-                              <CheckCircleIcon className="h-5 w-5" />
-                              Signed
-                            </span>
-                          ) : (
-                            <DotsHorizontalIcon className="h-5 w-5 text-yellow-500" />
-                          )}
-                        </Disclosure.Button>
-                        <Transition
-                          show={open}
-                          enter="transition duration-100 ease-out"
-                          enterFrom="transform scale-95 opacity-0"
-                          enterTo="transform scale-100 opacity-100"
-                          leave="transition duration-75 ease-out"
-                          leaveFrom="transform scale-100 opacity-100"
-                          leaveTo="transform scale-95 opacity-0"
-                        >
-                          <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-500">
-                            {item[1].signed === "Signed" ? (
-                              <span>
-                                Signed by:{" "}
-                                <span className="font-bold text-black">
-                                  {item[1].signedBy}
-                                </span>
-                                {", " +
-                                  moment(new Date(item[1].signedDate)).format(
-                                    "lll"
-                                  )}
-                              </span>
-                            ) : (
-                              <span>Signed by: -</span>
-                            )}
-                          </Disclosure.Panel>
-                        </Transition>
-                      </>
-                    )}
-                  </Disclosure>
-                ))}
-              </div>
-              <div className="mt-4 flex justify-center text-sm text-white">
-                {period &&
-                  period.term +
-                    ", " +
-                    (period.semester === 1
-                      ? "1st Semester "
-                      : period.semester === 2
-                      ? "2nd Semester "
-                      : "Summer ") +
-                    period.schoolyear}
-              </div>
-            </div>
-          </Tab.Panel>
-          <Tab.Panel>
-            <div className="mx-auto w-full max-w-md rounded-2xl bg-white p-2">
-              <div className="h-80 w-full">
-                <ScrollArea>
-                  <ExamClearance session={selectedStudent} period={period} />
-                  {/* <div className="fixed top-full left-full">
-                    <div
-                      id="fullclearanceview"
-                      ref={printComponentRef}
-                      className="flex h-screen w-full items-center justify-center"
-                    >
-                      <ExamClearance
-                        session={selectedStudent}
-                        period={period}
-                      />
-                    </div>
-                  </div> */}
-                </ScrollArea>
-              </div>
-            </div>
-            {/* <div className="mt-2 flex justify-end space-x-4 text-sm text-white md:mt-4">
-              <button className="flex" onClick={toggleClearanceFullScreen}>
-                <ArrowsExpandIcon className="h-5 w-5" /> Fullscreen
-              </button>
-              <button className="flex" onClick={handlePrint}>
-                <PrinterIcon className="h-5 w-5" /> Print
-              </button>
-              <button className="flex" onClick={handleDownloadPDF}>
-                <DocumentDownloadIcon className="h-5 w-5" /> Download
-              </button>
-            </div> */}
-          </Tab.Panel>
-        </Tab.Panels>
-      </Tab.Group>
-    );
-  };
-
   return (
     <>
       <div className="flex h-screen items-center justify-center p-4 lg:hidden">
@@ -401,11 +206,13 @@ export default function Completion({ session, period, endpoint }) {
       </div>
       <div className="hidden h-screen w-screen pt-20 lg:flex">
         <Head>
-          <title>{course.name} - For Completion | Registrar</title>
+          <title>
+            {course.name} - For Signing | {session.department} Office
+          </title>
         </Head>
         <TopBar />
         <div className="h-full w-1/4">
-          <SideBar path={`completion/${course.alt}`} session={session} />
+          <SideBarCLA path={`sign/${course.alt}`} session={session} />
         </div>
         <div className="h-full w-3/4">
           <ScrollArea>
@@ -413,7 +220,7 @@ export default function Completion({ session, period, endpoint }) {
               <div className="flex w-full justify-between">
                 <div className="prose prose-slate w-full dark:prose-invert">
                   <h1 className="m-0 p-0">{course.name}</h1>
-                  <h6 className="">For completion</h6>
+                  <h6 className="">For signing</h6>
                 </div>
                 <div className="flex w-full items-center justify-end space-x-2 text-sm font-semibold">
                   <h6>
@@ -646,7 +453,7 @@ export default function Completion({ session, period, endpoint }) {
                     ))
                   ) : (
                     <div className="text-md flex w-full justify-center pt-4 text-slate-500">
-                      No new students
+                      No new applications
                     </div>
                   )}
                 </div>
@@ -658,7 +465,7 @@ export default function Completion({ session, period, endpoint }) {
           type="submit"
           submitAction={handleSign}
           open={signModalOpen}
-          title="Confirm sign"
+          title="Confirm signing"
           sendModalState={sendSignModalState}
           close="Cancel"
           submitButton="Sign"
@@ -682,15 +489,6 @@ export default function Completion({ session, period, endpoint }) {
             placeholder="Type here..."
           ></textarea>
         </DialogModal>
-        <DialogModal
-          type="custom"
-          open={viewModalOpen}
-          sendModalState={sendViewModalState}
-        >
-          <div className="bg-gradient-to-r from-blue-400 to-blue-600 p-8">
-            <ClearanceView />
-          </div>
-        </DialogModal>
       </div>
     </>
   );
@@ -705,7 +503,7 @@ export const getServerSideProps = async (context) => {
   const { data: period } = await axios.get(host + "/api/getperiod");
   if (session) {
     const { role, department } = session;
-    if (role === "Admin" && department === "Registrar") {
+    if (role === "Admin" && department === "Library") {
       return {
         props: {
           endpoint: process.env.SOCKETIO_ENDPOINT,

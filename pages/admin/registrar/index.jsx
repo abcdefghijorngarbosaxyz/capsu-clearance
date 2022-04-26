@@ -81,8 +81,8 @@ export const getServerSideProps = async (context) => {
     host + "/api/admin/registrar/countcomplete"
   );
   if (session) {
-    const { role } = session;
-    if (role === "Admin") {
+    const { role, department } = session;
+    if (role === "Admin" && department === "Registrar") {
       return {
         props: {
           session,
@@ -98,6 +98,14 @@ export const getServerSideProps = async (context) => {
           destination: "/student",
         },
       };
+    else {
+      return {
+        redirect: {
+          permanent: false,
+          destination: "/",
+        },
+      };
+    }
   }
   return {
     redirect: {

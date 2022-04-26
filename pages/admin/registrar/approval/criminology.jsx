@@ -103,8 +103,16 @@ export default function Approval({ session, period, endpoint }) {
             term: period.term,
           }
         );
-        if (data.message === "Insert current semester status success!")
+        if (data.message === "Insert current semester status success!") {
           socket.emit("clearance list registrar update", course.short);
+          socket.emit("clearance collecting update", course.short);
+          socket.emit("clearance library update", course.short);
+          socket.emit("clearance osa update", course.short);
+          socket.emit(
+            "clearance" + course.short.toLowerCase() + "update",
+            course.short
+          );
+        }
       }
     } catch (error) {
       console.log(error);
@@ -503,8 +511,8 @@ export const getServerSideProps = async (context) => {
     `${process.env.HOSTNAME}`;
   const { data: period } = await axios.get(host + "/api/getperiod");
   if (session) {
-    const { role } = session;
-    if (role === "Admin") {
+    const { role, department } = session;
+    if (role === "Admin" && department === "Registrar") {
       return {
         props: {
           endpoint: process.env.SOCKETIO_ENDPOINT,
@@ -520,6 +528,14 @@ export const getServerSideProps = async (context) => {
           destination: "/student",
         },
       };
+    else {
+      return {
+        redirect: {
+          permanent: false,
+          destination: "/",
+        },
+      };
+    }
   }
   return {
     redirect: {

@@ -460,8 +460,8 @@ export const getServerSideProps = async (context) => {
     `${process.env.HOSTNAME}`;
   const { data: period } = await axios.get(host + "/api/getperiod");
   if (session) {
-    const { role } = session;
-    if (role === "Admin") {
+    const { role, department } = session;
+    if (role === "Admin" && department === "Registrar") {
       return {
         props: {
           endpoint: process.env.SOCKETIO_ENDPOINT,
@@ -476,6 +476,14 @@ export const getServerSideProps = async (context) => {
           destination: "/student",
         },
       };
+    else {
+      return {
+        redirect: {
+          permanent: false,
+          destination: "/",
+        },
+      };
+    }
   }
   return {
     redirect: {
