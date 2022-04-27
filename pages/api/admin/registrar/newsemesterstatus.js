@@ -1,7 +1,10 @@
+import dbconnect from "../../../../lib/dbconnect";
 import Student from "../../../../models/Student";
 
 export default async function handler(req, res) {
   const { studentid, semester, schoolyear, term } = req.body;
+
+  await dbconnect();
 
   try {
     await Student.findByIdAndUpdate(studentid, {

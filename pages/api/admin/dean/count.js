@@ -1,5 +1,6 @@
 import Student from "../../../../models/Student";
 import Period from "../../../../models/Period";
+import dbconnect from "../../../../lib/dbconnect";
 
 export default async function handler(req, res) {
   const { course } = req.body;
@@ -7,7 +8,7 @@ export default async function handler(req, res) {
   const schoolyear = period.schoolyear;
   const semester = period.semester;
   const term = period.term;
-
+  await dbconnect;
   try {
     const allcount = await Student.find({ department: course }).count();
     const appliedcount = await Student.find({

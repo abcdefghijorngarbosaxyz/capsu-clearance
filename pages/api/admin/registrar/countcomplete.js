@@ -1,4 +1,5 @@
 import axios from "axios";
+import dbconnect from "../../../../lib/dbconnect";
 import Period from "../../../../models/Period";
 import Student from "../../../../models/Student";
 
@@ -7,6 +8,7 @@ export default async function handler(req, res) {
   const schoolyear = period.schoolyear;
   const semester = period.semester;
   const term = period.term;
+  await dbconnect();
   try {
     const completecount = await Student.find({
       "applied.isApplied": true,

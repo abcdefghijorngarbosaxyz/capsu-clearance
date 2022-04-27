@@ -1,3 +1,4 @@
+import dbconnect from "../../../lib/dbconnect";
 import Student from "../../../models/Student";
 
 export default async function handler(req, res) {
@@ -8,7 +9,7 @@ export default async function handler(req, res) {
     userphoto,
     notificationOffice,
   } = req.body;
-
+  await dbconnect();
   try {
     await Student.findByIdAndUpdate(studentid, {
       $push: {

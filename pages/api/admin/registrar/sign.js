@@ -1,10 +1,13 @@
 import Student from "../../../../models/Student";
 import Period from "../../../../models/Period";
+import dbconnect from "../../../../lib/dbconnect";
 
 export default async function handler(req, res) {
   const period = await Period.findOne();
   const { schoolyear, semester, term } = period;
   const { studentid, signedby } = req.body;
+
+  await dbconnect();
 
   try {
     await Student.updateOne(
