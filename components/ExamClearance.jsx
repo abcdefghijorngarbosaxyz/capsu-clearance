@@ -1,10 +1,30 @@
+import axios from "axios";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
-export default function ExamClearance({ period, session }) {
+export default function ExamClearance({ period, session, signatures }) {
+  const [clearance, setClearance] = useState({});
+  const [signature, setSignature] = useState("");
+  const getStatus = async () => {
+    const { data } = await axios.post("/api/student/status", {
+      studentid: session.id,
+    });
+    if (data) setClearance(data);
+  };
+  const getSignature = async () => {
+    const { data } = await axios.post("/api/student/signature", {
+      studentid: session.id,
+    });
+    if (data) setSignature(data.signature);
+  };
+  useEffect(() => {
+    getStatus();
+    getSignature();
+  }, []);
   return (
     <div
       id="clearancedoc"
-      className="h-fit w-fit border border-black text-black bg-white font-serif text-2xs"
+      className="h-fit w-fit border border-black bg-white font-serif text-2xs text-black"
     >
       <div className="flex h-[5rem] w-[22.9rem] border-b border-black">
         <div className="h-full w-[3.9rem] border-r border-black py-2">
@@ -125,7 +145,15 @@ export default function ExamClearance({ period, session }) {
           <div className="flex w-[7rem] items-end">
             Student&apos;s Signature:
           </div>
-          <div className="flex h-full w-[14.9rem] items-end justify-center border-b border-black"></div>
+          <div className="relative flex h-full w-[14.9rem] items-end justify-center border-b border-black">
+            {signature && (
+              <div className="absolute top-0 left-[2rem]">
+                <div className="relative h-[4rem] w-[10rem]">
+                  <Image src={signature} layout="fill" objectFit="contain" />
+                </div>
+              </div>
+            )}
+          </div>
         </div>
         <div>
           <h6>
@@ -135,35 +163,90 @@ export default function ExamClearance({ period, session }) {
             </span>
           </h6>
         </div>
-        <div className="h-[4rem] w-full px-[4rem]">
+        <div className="relative h-[4rem] w-full px-[4rem]">
           <div className="h-[3rem] border-b border-black"></div>
           <div className="flex h-[1rem] justify-center">
             <h6>(Dean / Program Chair)</h6>
           </div>
+          {clearance.department && clearance.department.signed === "Signed" && (
+            <div className="absolute top-0 left-[3rem]">
+              <div className="relative h-[4rem] w-[10rem]">
+                <Image
+                  src={signatures.department}
+                  layout="fill"
+                  objectFit="contain"
+                />
+              </div>
+            </div>
+          )}
         </div>
-        <div className="h-[4rem] w-full px-[4rem]">
+        <div className="relative h-[4rem] w-full px-[4rem]">
           <div className="h-[3rem] border-b border-black"></div>
           <div className="flex h-[1rem] justify-center">
             <h6>(Chairman, Student Affairs)</h6>
           </div>
+          {clearance.affairs && clearance.affairs.signed === "Signed" && (
+            <div className="absolute top-0 left-[3rem]">
+              <div className="relative h-[4rem] w-[10rem]">
+                <Image
+                  src={signatures.affairs}
+                  layout="fill"
+                  objectFit="contain"
+                />
+              </div>
+            </div>
+          )}
         </div>
-        <div className="h-[4rem] w-full px-[4rem]">
+        <div className="relative h-[4rem] w-full px-[4rem]">
           <div className="h-[3rem] border-b border-black"></div>
           <div className="flex h-[1rem] justify-center">
             <h6>(Librarian</h6>
           </div>
+          {clearance.library && clearance.library.signed === "Signed" && (
+            <div className="absolute top-0 left-[3rem]">
+              <div className="relative h-[4rem] w-[10rem]">
+                <Image
+                  src={signatures.library}
+                  layout="fill"
+                  objectFit="contain"
+                />
+              </div>
+            </div>
+          )}
         </div>
-        <div className="h-[4rem] w-full px-[4rem]">
+        <div className="relative h-[4rem] w-full px-[4rem]">
           <div className="h-[3rem] border-b border-black"></div>
           <div className="flex h-[1rem] justify-center">
             <h6>(Collecting &amp; Disbursing Officer)</h6>
           </div>
+          {clearance.collection && clearance.collection.signed === "Signed" && (
+            <div className="absolute top-0 left-[3rem]">
+              <div className="relative h-[4rem] w-[10rem]">
+                <Image
+                  src={signatures.collecting}
+                  layout="fill"
+                  objectFit="contain"
+                />
+              </div>
+            </div>
+          )}
         </div>
-        <div className="h-[4rem] w-full px-[4rem]">
+        <div className="relative h-[4rem] w-full px-[4rem]">
           <div className="h-[3rem] border-b border-black"></div>
           <div className="flex h-[1rem] justify-center">
             <h6>(Registrar)</h6>
           </div>
+          {clearance.registrar && clearance.registrar.signed === "Signed" && (
+            <div className="absolute top-0 left-[3rem]">
+              <div className="relative h-[4rem] w-[10rem]">
+                <Image
+                  src={signatures.registrar}
+                  layout="fill"
+                  objectFit="contain"
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

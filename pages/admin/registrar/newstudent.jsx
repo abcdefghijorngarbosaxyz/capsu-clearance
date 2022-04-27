@@ -120,7 +120,7 @@ export default function AddNewStudent({ session, endpoint, period }) {
         </div>
         <form
           onSubmit={handleSubmit}
-          className="grid h-fit w-full grid-cols-6 gap-4 rounded-lg bg-gradient-to-r from-sky-400 to-sky-600 p-4 text-gray-900 backdrop-blur"
+          className="grid h-fit w-full grid-cols-6 gap-4 rounded-lg bg-gradient-to-r from-sky-400 to-sky-600 p-4 text-gray-900 shadow backdrop-blur"
         >
           <div className="col-span-1">
             <label

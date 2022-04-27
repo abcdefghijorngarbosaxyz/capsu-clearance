@@ -84,7 +84,7 @@ export default function DeanSign({ course, session, endpoint }) {
       notificationOffice: session.office,
       notificationMessage: message,
     });
-    if (data) socket.emit("notifications latest", { id: selectedId });
+    if (data) socket.emit("message department update", { id: selectedId });
   };
 
   const handleSign = async () => {

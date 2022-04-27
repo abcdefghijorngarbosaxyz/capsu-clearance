@@ -30,7 +30,8 @@ export default function SideBarDean({ session, path, course }) {
                 <Image
                   src={session.userphoto}
                   layout="fill"
-                  objectFit="fixed"
+                  objectFit="cover"
+                  className="rounded-full"
                 />
               ) : (
                 <h1 className="flex h-full w-full items-center justify-center text-lg font-normal text-white">
@@ -163,7 +164,7 @@ export default function SideBarDean({ session, path, course }) {
                         <h4
                           className={`${
                             currentLink(
-                              "/admin/" +
+                              "/admin/dean/" +
                                 session.department.toLowerCase() +
                                 "/newadmin"
                             )
@@ -172,6 +173,39 @@ export default function SideBarDean({ session, path, course }) {
                           } mb-6 pl-4 group-hover:text-black dark:group-hover:text-white `}
                         >
                           Add new admin user
+                        </h4>
+                      </div>
+                    </Link>
+                    <Link
+                      href={
+                        "/admin/dean/" +
+                        session.department.toLowerCase() +
+                        "/requests"
+                      }
+                    >
+                      <div
+                        className={`group flex h-6 w-fit cursor-pointer items-center border-l py-5 pl-8 ${
+                          currentLink(
+                            "/admin/dean/" +
+                              session.department.toLowerCase() +
+                              "/requests"
+                          )
+                            ? "border-sky-500"
+                            : "border-gray-400 dark:border-gray-700"
+                        }`}
+                      >
+                        <h4
+                          className={`${
+                            currentLink(
+                              "/admin/dean/" +
+                                session.department.toLowerCase() +
+                                "/requests"
+                            )
+                              ? "text-black dark:text-white"
+                              : "text-slate-700 dark:text-slate-400"
+                          } mb-6 pl-4 group-hover:text-black dark:group-hover:text-white `}
+                        >
+                          Requests
                         </h4>
                       </div>
                     </Link>

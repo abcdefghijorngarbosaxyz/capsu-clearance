@@ -36,7 +36,7 @@ const course = {
 };
 var socket;
 
-export default function Completion({ session, period, endpoint }) {
+export default function Completion({ session, signatures, period, endpoint }) {
   socket = io(endpoint);
 
   const [socketconnected, setSocketconnected] = useState(false);
@@ -214,6 +214,7 @@ export default function Completion({ session, period, endpoint }) {
               setSelectedId(id);
               handleViewClearance();
               setSelectedStudent({
+                id: selectedId,
                 firstname: first,
                 lastname: last,
                 middlename: middle,
@@ -359,7 +360,11 @@ export default function Completion({ session, period, endpoint }) {
             <div className="mx-auto w-full max-w-md rounded-2xl bg-white p-2">
               <div className="h-80 w-full">
                 <ScrollArea>
-                  <ExamClearance session={selectedStudent} period={period} />
+                  <ExamClearance
+                    signatures={signatures}
+                    session={selectedStudent}
+                    period={period}
+                  />
                   {/* <div className="fixed top-full left-full">
                     <div
                       id="fullclearanceview"
@@ -712,6 +717,13 @@ export const getServerSideProps = async (context) => {
           session,
           course,
           period: period.period,
+          signatures: {
+            registrar: process.env.SIGNATURE_REG,
+            collecting: process.env.SIGNATURE_COL,
+            affairs: process.env.SIGNATURE_AFF,
+            library: process.env.SIGNATURE_LIB,
+            department: process.env.SIGNATURE_BSCRIM,
+          },
         },
       };
     } else if (role === "Student")

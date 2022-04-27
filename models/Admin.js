@@ -34,6 +34,10 @@ const AdminSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  userphoto: {
+    type: String,
+    default: null,
+  },
 });
 
 AdminSchema.pre("save", async function (next) {

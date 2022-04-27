@@ -88,8 +88,10 @@ export default function AffairsSign({ session, period, endpoint }) {
       studentid: selectedId,
       notificationOffice: session.office,
       notificationMessage: message,
+      userphoto: session.userphoto,
+      sender: session.firstname + " " + session.lastname,
     });
-    if (data) socket.emit("notifications latest", { id: selectedId });
+    if (data) socket.emit("mesage affairs update", { id: selectedId });
   };
 
   const handleSign = async () => {

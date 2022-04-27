@@ -30,6 +30,7 @@ import ScrollArea from "../../components/extras/ScrollArea";
 import $ from "jquery";
 import { useReactToPrint } from "react-to-print";
 import { jsPDF } from "jspdf";
+import SideBarStudent from "../../components/SideBar.Student";
 
 var socket;
 
@@ -122,86 +123,6 @@ export default function StudentHome({
         session.firstname + " " + session.lastname + " Exam Clearance.pdf"
       );
     });
-  };
-
-  const SideNav = () => {
-    return (
-      <div className="prose prose-slate flex h-full w-full flex-col justify-between pt-10 pb-8 dark:prose-invert">
-        <div className="group relative flex h-full w-full flex-col rounded-lg px-4 pt-4 pb-12 hover:bg-slate-400/10 dark:hover:bg-slate-700/50">
-          <div className="flex w-full flex-col items-center justify-center">
-            <div
-              className={`${
-                !session.userphoto && "bg-sky-500"
-              } relative h-28 w-28 rounded-full`}
-            >
-              {session.userphoto ? (
-                <Image
-                  alt="User photo"
-                  priority
-                  src={session.userphoto}
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-full"
-                />
-              ) : (
-                <div className="item flex h-full w-full items-center justify-center rounded-full text-5xl">
-                  {session.firstname.charAt(0)}
-                </div>
-              )}
-            </div>
-            <h1 className="flex max-h-fit flex-col items-start pl-4 font-medium">
-              <span className="text-sm">Welcome,</span>
-              <span className="text-xl font-bold text-sky-500">
-                {session.firstname}&nbsp;
-                <span>{session.lastname}</span>
-              </span>
-            </h1>
-          </div>
-          <div className="mt-6 flex h-fit w-full">
-            <div className="h-fit w-1/2">ID number</div>
-            <div className="h-fit w-1/2">{session.username}</div>
-          </div>
-          <div className="flex h-fit w-full">
-            <div className="h-fit w-1/2">Course</div>
-            <div className="h-fit w-1/2">{session.department}</div>
-          </div>
-          <div className="flex h-fit w-full">
-            <div className="h-fit w-1/2">Year &amp; Section</div>
-            <div className="h-fit w-1/2">
-              {session.yearlevel + session.section}
-            </div>
-          </div>
-          <Link href="/student/editdata">
-            <span className="invisible absolute left-2 bottom-2 flex h-fit w-fit cursor-pointer items-center text-sm hover:text-black group-hover:visible dark:hover:text-white">
-              <PencilAltIcon className="mr-2 h-6 w-6" />
-              Edit
-            </span>
-          </Link>
-        </div>
-        <div className="flex h-full w-full items-end border-b border-gray-300/[0.5] px-4 py-4 dark:border-gray-700/[0.5] lg:px-0">
-          <Link href="/student">
-            <div className="flex h-6 w-fit cursor-pointer items-center">
-              <div className="relative h-6 w-6">
-                <Image src="/assets/icons/home.png" layout="fill" priority />
-              </div>
-              <h4 className="mb-6 pl-4 text-black dark:text-white">Home</h4>
-            </div>
-          </Link>
-        </div>
-        <div className="flex h-fit w-full items-end px-4 pt-4 lg:px-0">
-          <div className="group w-fit">
-            <button onClick={signOut} className="flex h-6 w-fit items-center">
-              <div className="relative h-6 w-6">
-                <Image src="/assets/icons/logout.png" layout="fill" priority />
-              </div>
-              <h4 className="mb-6 pl-4 text-slate-700 group-hover:text-black dark:text-slate-400 dark:group-hover:text-white">
-                Logout
-              </h4>
-            </button>
-          </div>
-        </div>
-      </div>
-    );
   };
 
   const MessagesView = () => {
@@ -442,7 +363,7 @@ export default function StudentHome({
   return (
     <>
       <Head>
-        <title>{session.firstname} | Home</title>
+        <title>{session.firstname} - Home | Student</title>
       </Head>
       <div className="flex max-h-screen w-screen">
         <div className="mt-18 w-full px-4 md:hidden md:px-8">
@@ -540,7 +461,7 @@ export default function StudentHome({
                       </div>
                     </Transition.Child>
                     <div className="flex h-full w-72 flex-col bg-gray-100/70 px-4 shadow-xl dark:bg-gray-900/70">
-                      <SideNav />
+                      <SideBarStudent session={session} signOut={signOut} />
                     </div>
                   </div>
                 </Transition.Child>
@@ -552,8 +473,8 @@ export default function StudentHome({
           id="desktop"
           className="mx-8 hidden h-full w-full flex-row-reverse md:flex"
         >
-          <div className="fixed top-0 left-8 hidden h-screen w-1/4 pt-18 lg:flex">
-            <SideNav />
+          <div className="fixed top-0 left-0 hidden h-screen w-1/4 pt-18 lg:flex">
+            <SideBarStudent session={session} signOut={signOut} />
           </div>
           <div className="fixed left-0 top-0 flex h-screen w-3/5 px-8 pt-18 lg:left-1/4 lg:w-2/4 lg:justify-center">
             <ClearanceView />
@@ -609,6 +530,12 @@ export const getServerSideProps = async (context) => {
   if (session) {
     const { role } = session;
     if (role === "Student") {
+      return {
+        redirect: {
+          permanent: false,
+          destination: "/student/v2/" + session.id,
+        },
+      };
       const { data: applied } = await axios.post(
         host + "/api/student/isapplied",
         { studentid: session.id }

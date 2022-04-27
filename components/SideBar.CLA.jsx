@@ -58,7 +58,8 @@ export default function SideBarCLA({ session, path }) {
                 <Image
                   src={session.userphoto}
                   layout="fill"
-                  objectFit="fixed"
+                  objectFit="cover"
+                  className="rounded-full"
                 />
               ) : (
                 <h1 className="flex h-full w-full items-center justify-center text-lg font-normal text-white">

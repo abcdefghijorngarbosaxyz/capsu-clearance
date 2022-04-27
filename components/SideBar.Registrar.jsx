@@ -86,11 +86,13 @@ export default function SideBar({ session, path }) {
                 <Image
                   src={session.userphoto}
                   layout="fill"
-                  objectFit="fixed"
+                  objectFit="cover"
+                  className="rounded-full"
                 />
               ) : (
                 <h1 className="flex h-full w-full items-center justify-center text-lg font-normal text-white">
                   {session.firstname.charAt(0)}
+                  {session.lastname.charAt(0)}
                 </h1>
               )}
             </div>

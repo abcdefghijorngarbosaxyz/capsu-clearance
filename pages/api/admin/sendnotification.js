@@ -1,7 +1,13 @@
 import Student from "../../../models/Student";
 
 export default async function handler(req, res) {
-  const { studentid, notificationMessage, notificationOffice } = req.body;
+  const {
+    studentid,
+    notificationMessage,
+    sender,
+    userphoto,
+    notificationOffice,
+  } = req.body;
 
   try {
     await Student.findByIdAndUpdate(studentid, {
@@ -12,6 +18,8 @@ export default async function handler(req, res) {
               notificationOffice: notificationOffice,
               notificationMessage: notificationMessage,
               notificationDate: new Date(),
+              notificationBy: sender,
+              notificationPhoto: userphoto,
             },
           ],
           $position: 0,

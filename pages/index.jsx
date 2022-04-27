@@ -28,7 +28,7 @@ export const getServerSideProps = async (context) => {
     return {
       redirect: {
         permanent: false,
-        destination: "/student",
+        destination: "/student/v2/" + session.id,
       },
     };
   else if (session.role === "Admin" && session.office !== "Department") {

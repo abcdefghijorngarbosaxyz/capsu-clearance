@@ -53,6 +53,10 @@ const StudentSchema = new mongoose.Schema({
     type: String,
     default: null,
   },
+  signature: {
+    type: String,
+    default: null,
+  },
   department: {
     type: String,
     required: true,
@@ -81,6 +85,14 @@ const StudentSchema = new mongoose.Schema({
       notificationDate: {
         type: Date,
         default: new Date(),
+      },
+      notificationBy: {
+        type: String,
+        default: null,
+      },
+      notificationPhoto: {
+        type: String,
+        default: null,
       },
     },
   ],
