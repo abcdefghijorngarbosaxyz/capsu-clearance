@@ -82,4 +82,14 @@
   background: hsl(120 100% 10% / 1);
 }
 
-/* Vertical scrolling */
+.close {
+  background: #ff605c;
+}
+
+.minimize {
+  background: #ffbd44;
+}
+
+.maximize {
+  background: #00ca4e;
+}

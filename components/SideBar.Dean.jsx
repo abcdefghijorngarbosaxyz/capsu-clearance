@@ -147,7 +147,7 @@ export default function SideBarDean({ session, path, course }) {
                       href={
                         "/admin/dean/" +
                         session.department.toLowerCase() +
-                        "/newadmin"
+                        "/adminaccounts"
                       }
                     >
                       <div
@@ -155,7 +155,7 @@ export default function SideBarDean({ session, path, course }) {
                           currentLink(
                             "/admin/dean/" +
                               session.department.toLowerCase() +
-                              "/newadmin"
+                              "/adminaccounts"
                           )
                             ? "border-sky-500"
                             : "border-gray-400 dark:border-gray-700"
@@ -166,13 +166,13 @@ export default function SideBarDean({ session, path, course }) {
                             currentLink(
                               "/admin/dean/" +
                                 session.department.toLowerCase() +
-                                "/newadmin"
+                                "/adminaccounts"
                             )
                               ? "text-black dark:text-white"
                               : "text-slate-700 dark:text-slate-400"
                           } mb-6 pl-4 group-hover:text-black dark:group-hover:text-white `}
                         >
-                          Add new admin user
+                          Admin accounts
                         </h4>
                       </div>
                     </Link>
@@ -231,7 +231,9 @@ export default function SideBarDean({ session, path, course }) {
                 <h4
                   className={`${
                     currentLink(
-                      "/admin/" + session.department.toLowerCase() + "/settings"
+                      "/admin/dean/" +
+                        session.department.toLowerCase() +
+                        "/settings"
                     )
                       ? "text-black dark:text-white"
                       : "text-slate-700 dark:text-slate-400"
