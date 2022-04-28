@@ -1,3 +1,4 @@
+import { EmojiHappyIcon, EmojiSadIcon } from "@heroicons/react/outline";
 import { CheckIcon, XCircleIcon } from "@heroicons/react/solid";
 import axios from "axios";
 import { getSession } from "next-auth/react";
@@ -5,6 +6,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import DialogModal from "../../../../components/extras/DialogModal";
 import ScrollArea from "../../../../components/extras/ScrollArea";
 import SideBarDean from "../../../../components/SideBar.Dean";
 import TopBar from "../../../../components/TopBar";
@@ -15,6 +17,10 @@ export default function AdminAccounts({ course, session, admins }) {
   const [password, setPassword] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [alertModalOpen, setAlertModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [selectedAdmin, setSelectedAdmin] = useState(null);
 
   const { query } = useRouter();
 
@@ -28,7 +34,11 @@ export default function AdminAccounts({ course, session, admins }) {
       department: session.department,
       office: session.office,
     });
-    if (data) console.log(data);
+    if (data.message !== "New admin added") {
+      setErrorMessage("An error occured");
+      setAlertModalOpen(true);
+    }
+    setAlertModalOpen(true);
   };
 
   const fetchList = async () => {
@@ -38,12 +48,21 @@ export default function AdminAccounts({ course, session, admins }) {
     if (data) setList(data.list);
   };
 
-  const handleDelete = async (adminid) => {
+  const sendDeleteModalState = (deleteModalOpen) => {
+    setDeleteModalOpen(deleteModalOpen);
+  };
+
+  const handleDelete = async () => {
     const response = await axios.post("/api/admin/dean/admindelete", {
-      adminid,
+      adminid: selectedAdmin,
     });
     if (response) fetchList();
   };
+
+  const sendAlertModalState = (alertModalOpen) => {
+    setAlertModalOpen(alertModalOpen);
+  };
+
   const AdminList = ({ name, index, adminid }) => {
     return (
       <>
@@ -56,7 +75,8 @@ export default function AdminAccounts({ course, session, admins }) {
           <div className="flex w-1/4 justify-center pl-2">
             <button
               onClick={() => {
-                handleDelete(adminid);
+                setSelectedAdmin(adminid);
+                setDeleteModalOpen(true);
               }}
               className="ml-4 flex items-center text-xs text-red-500 hover:text-red-600"
             >
@@ -123,14 +143,16 @@ export default function AdminAccounts({ course, session, admins }) {
                     </div>
                   </div>
                   {list.length > 0 ? (
-                    list.map((item, index) => (
-                      <AdminList
-                        name={item.firstname + " " + item.lastname}
-                        key={index}
-                        index={index}
-                        adminid={item._id}
-                      />
-                    ))
+                    list
+                      .filter((item) => item._id != session.id)
+                      .map((item, index) => (
+                        <AdminList
+                          name={item.firstname + " " + item.lastname}
+                          key={index}
+                          index={index}
+                          adminid={item._id}
+                        />
+                      ))
                   ) : (
                     <div className="text-md flex w-full justify-center pt-4 text-slate-500">
                       No new admins
@@ -224,6 +246,35 @@ export default function AdminAccounts({ course, session, admins }) {
             <button onClick={fetchList}>click</button>
           </ScrollArea>
         </div>
+        <DialogModal
+          type="flash"
+          flash={
+            errorMessage ? (
+              <EmojiSadIcon className="h-20 w-20 text-red-500" />
+            ) : (
+              <EmojiHappyIcon className="h-20 w-20 text-green-500" />
+            )
+          }
+          open={alertModalOpen}
+          title={errorMessage ? "An error occured" : "Success"}
+          body={
+            errorMessage
+              ? "Please check if the admin information are correct and there are no fields that are empty"
+              : "New admin added"
+          }
+          sendModalState={sendAlertModalState}
+          close={errorMessage ? "Retry" : "OK"}
+        />
+        <DialogModal
+          type="submit"
+          submitAction={handleDelete}
+          open={deleteModalOpen}
+          title="Confirm approve"
+          sendModalState={sendDeleteModalState}
+          close="Cancel"
+          submitButton="Delete"
+          body="Are you sure you want to delete this admin?"
+        ></DialogModal>
       </div>
     </>
   );

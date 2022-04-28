@@ -104,7 +104,6 @@ export default function Messages({ session, endpoint }) {
   ]);
 
   useEffect(() => {
-    if (query.sender) return;
     if (tabNotifications.length > 0) {
       const defaultQuery = tabNotifications[0][0];
       if (defaultQuery) {
@@ -113,7 +112,26 @@ export default function Messages({ session, endpoint }) {
         );
       }
     }
-  }, [query.sender]);
+  }, [
+    query.sender,
+    tabNotifications,
+    messageAffairs,
+    messageCollecting,
+    messageDepartment,
+    messageLibrary,
+    messageRegistrar,
+  ]);
+
+  useEffect(() => {
+    if (tabNotifications.length > 0) {
+      const defaultQuery = tabNotifications[0][0];
+      if (defaultQuery) {
+        Router.push(
+          `/student/v2/${session.id}/messages?sender=${defaultQuery.notificationOffice}`
+        );
+      }
+    }
+  }, []);
 
   const SingleMessage = ({ item }) => {
     return (
