@@ -147,7 +147,7 @@ export default function SideBarDean({ session, path, course }) {
                       href={
                         "/admin/dean/" +
                         session.department.toLowerCase() +
-                        "/adminaccounts"
+                        "/adminaccounts?action=delete"
                       }
                     >
                       <div

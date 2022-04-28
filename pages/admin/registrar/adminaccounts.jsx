@@ -1,15 +1,15 @@
-import { CheckIcon, XCircleIcon } from "@heroicons/react/solid";
-import axios from "axios";
-import { getSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import ScrollArea from "../../../components/extras/ScrollArea";
+import SideBarCLA from "../../../components/SideBar.CLA";
+import TopBar from "../../../components/TopBar";
 import { useState } from "react";
-import ScrollArea from "../../../../components/extras/ScrollArea";
-import SideBarDean from "../../../../components/SideBar.Dean";
-import TopBar from "../../../../components/TopBar";
+import { useRouter } from "next/router";
+import { getSession } from "next-auth/react";
+import axios from "axios";
+import { XCircleIcon } from "@heroicons/react/solid";
 
-export default function AdminAccounts({ course, session, admins }) {
+export default function AdminAccounts({ admins, session }) {
   const [list, setList] = useState(admins);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -78,14 +78,13 @@ export default function AdminAccounts({ course, session, admins }) {
       </div>
       <div className="hidden h-screen w-screen pt-20 lg:flex">
         <Head>
-          <title>Admin Accounts | {course.short} - Dean&apos;s Office</title>
+          <title>Admin Accounts | {session.office} Office</title>
         </Head>
         <TopBar />
         <div className="h-full w-1/4">
-          <SideBarDean
-            path={`/admin/dean/${session.department.toLowerCase()}/adminaccounts`}
+          <SideBarCLA
+            path={"/admin/" + session.department.toLowerCase() + "/newadmin"}
             session={session}
-            course={course}
           />
         </div>
         <div className="h-full w-3/4">
@@ -96,17 +95,13 @@ export default function AdminAccounts({ course, session, admins }) {
                   <h1>Admin Accounts</h1>
                 </div>
                 {query.action && query.action === "delete" ? (
-                  <Link
-                    href={`/admin/dean/${course.short.toLowerCase()}/adminaccounts?action=add`}
-                  >
+                  <Link href={`/admin/registrar/adminaccounts?action=add`}>
                     <div className="cursor-pointer rounded-lg bg-blue-400 p-2 text-sm font-bold text-white hover:bg-blue-600">
                       Add new admin
                     </div>
                   </Link>
                 ) : query.action && query.action === "add" ? (
-                  <Link
-                    href={`/admin/dean/${course.short.toLowerCase()}/adminaccounts?action=delete`}
-                  >
+                  <Link href={`/admin/registrar/adminaccounts?action=delete`}>
                     <div className="cursor-pointer rounded-lg bg-red-400 p-2 text-sm font-bold text-white hover:bg-red-600">
                       Delete admin
                     </div>
@@ -229,21 +224,7 @@ export default function AdminAccounts({ course, session, admins }) {
   );
 }
 export const getServerSideProps = async (context) => {
-  const { req, query } = context;
-
-  const courses = [
-    { name: "Computer Science", short: "BSCS", alt: "computerscience" },
-    { name: "Elementary Education", short: "BEED", alt: "education" },
-    { name: "Fisheries", short: "BSF", alt: "fisheries" },
-    { name: "Criminology", short: "BSCrim", alt: "criminology" },
-    { name: "Food Technology", short: "BSFT", alt: "foodtech" },
-  ];
-
-  if (!courses.some((course) => course.short.toLowerCase() === query.course)) {
-    return {
-      notFound: true,
-    };
-  }
+  const { req, res } = context;
   const session = await getSession({ req });
   const host =
     (process.env.NODE_ENV === "development" ? "http://" : "https://") +
@@ -251,32 +232,17 @@ export const getServerSideProps = async (context) => {
 
   if (session) {
     const { role, department } = session;
-    if (role === "Admin") {
-      if (department.toLowerCase() === query.course) {
-        var sessionCourse;
-        for (var i in courses) {
-          if (query.course === courses[i].short.toLowerCase())
-            sessionCourse = courses[i];
-        }
-        const { data: admins } = await axios.post(
-          host + "/api/admin/dean/adminaccounts",
-          { department: session.department }
-        );
-        return {
-          props: {
-            course: sessionCourse,
-            session,
-            admins: admins.list,
-          },
-        };
-      } else {
-        return {
-          redirect: {
-            permanent: false,
-            destination: "/admin/dean/" + department.toLowerCase(),
-          },
-        };
-      }
+    if (role === "Admin" && department === "Registrar") {
+      const { data: admins } = await axios.post(
+        host + "/api/admin/dean/adminaccounts",
+        { department: session.department }
+      );
+      return {
+        props: {
+          session,
+          admins: admins.list,
+        },
+      };
     } else if (role === "Student")
       return {
         redirect: {

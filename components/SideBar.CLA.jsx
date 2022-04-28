@@ -173,7 +173,7 @@ export default function SideBarCLA({ session, path }) {
                       href={
                         "/admin/" +
                         session.department.toLowerCase() +
-                        "/newadmin"
+                        "/adminaccounts?action=delete"
                       }
                     >
                       <div
@@ -198,7 +198,7 @@ export default function SideBarCLA({ session, path }) {
                               : "text-slate-700 dark:text-slate-400"
                           } mb-6 pl-4 group-hover:text-black dark:group-hover:text-white `}
                         >
-                          Add new admin user
+                          Admin accounts
                         </h4>
                       </div>
                     </Link>

@@ -83,6 +83,8 @@ export default function DeanSign({ course, session, endpoint }) {
       studentid: selectedId,
       notificationOffice: session.office,
       notificationMessage: message,
+      sender: session.firstname + " " + session.lastname,
+      userphoto: session.userphoto,
     });
     if (data) socket.emit("message department update", { id: selectedId });
   };

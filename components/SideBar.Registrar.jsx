@@ -265,6 +265,25 @@ export default function SideBar({ session, path }) {
                         </h4>
                       </div>
                     </Link>
+                    <Link href="/admin/registrar/adminaccounts">
+                      <div
+                        className={`group flex h-6 w-fit cursor-pointer items-center border-l py-5 pl-8 ${
+                          currentLink("/admin/registrar/adminaccounts")
+                            ? "border-sky-500"
+                            : "border-gray-400 dark:border-gray-700"
+                        }`}
+                      >
+                        <h4
+                          className={`${
+                            currentLink("/admin/registrar/adminaccounts")
+                              ? "text-black dark:text-white"
+                              : "text-slate-700 dark:text-slate-400"
+                          } mb-6 pl-4 group-hover:text-black dark:group-hover:text-white `}
+                        >
+                          Admin accounts
+                        </h4>
+                      </div>
+                    </Link>
                   </Disclosure.Panel>
                 </>
               )}

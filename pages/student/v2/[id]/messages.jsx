@@ -157,7 +157,6 @@ export default function Messages({ session, endpoint }) {
             <div className="prose prose-slate mt-20 py-8 dark:prose-invert">
               <h1>Messages</h1>
             </div>
-            <button onClick={() => console.log(tabNotifications)}>C</button>
             <div className="flex h-2/3 w-full flex-col justify-start rounded-lg bg-gradient-to-r from-cyan-400 to-sky-500 py-2 shadow">
               {tabNotifications.length > 0 &&
                 tabNotifications
