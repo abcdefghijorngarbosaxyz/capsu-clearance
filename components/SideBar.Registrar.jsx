@@ -265,7 +265,7 @@ export default function SideBar({ session, path }) {
                         </h4>
                       </div>
                     </Link>
-                    <Link href="/admin/registrar/adminaccounts">
+                    <Link href="/admin/registrar/adminaccounts?action=delete">
                       <div
                         className={`group flex h-6 w-fit cursor-pointer items-center border-l py-5 pl-8 ${
                           currentLink("/admin/registrar/adminaccounts")

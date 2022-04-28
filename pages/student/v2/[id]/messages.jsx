@@ -113,7 +113,7 @@ export default function Messages({ session, endpoint }) {
         );
       }
     }
-  }, [tabNotifications]);
+  }, [query.sender]);
 
   const SingleMessage = ({ item }) => {
     return (
