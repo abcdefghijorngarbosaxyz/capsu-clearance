@@ -157,7 +157,8 @@ export default function Messages({ session, endpoint }) {
             <div className="prose prose-slate mt-20 py-8 dark:prose-invert">
               <h1>Messages</h1>
             </div>
-            <div className="h-2/3 w-full rounded-lg bg-gradient-to-r from-cyan-400 to-sky-500 py-2 shadow">
+            <button onClick={() => console.log(tabNotifications)}>C</button>
+            <div className="flex h-2/3 w-full flex-col justify-start rounded-lg bg-gradient-to-r from-cyan-400 to-sky-500 py-2 shadow">
               {tabNotifications.length > 0 &&
                 tabNotifications
                   .sort(
@@ -167,61 +168,65 @@ export default function Messages({ session, endpoint }) {
                   )
                   .reverse()
                   .map((item, index) => (
-                    <div className="h-1/5 w-full px-4 py-2" key={index}>
+                    <div key={index}>
                       {item[0] && (
-                        <Link
-                          className="h-full w-full"
-                          href={`/student/v2/${session.id}/messages?sender=${item[0].notificationOffice}`}
-                        >
-                          <div
-                            className={`flex h-full w-full cursor-pointer items-center rounded-lg px-4 shadow-md ${
-                              query.sender === item[0].notificationOffice
-                                ? "bg-sky-900 bg-opacity-75 text-white ring-2 ring-white ring-opacity-60 ring-offset-2 ring-offset-sky-300"
-                                : "bg-white"
-                            }`}
+                        <div className="h-20 w-full px-4 py-2">
+                          <Link
+                            className="h-full w-full"
+                            href={`/student/v2/${session.id}/messages?sender=${item[0].notificationOffice}`}
                           >
                             <div
-                              className={`relative h-12 w-12 rounded-full border-2 ${
+                              className={`flex h-full w-full cursor-pointer items-center rounded-lg px-4 shadow-md ${
                                 query.sender === item[0].notificationOffice
-                                  ? "border-white/50"
-                                  : "border-black/50"
+                                  ? "bg-sky-900 bg-opacity-75 text-white ring-2 ring-white ring-opacity-60 ring-offset-2 ring-offset-sky-300"
+                                  : "bg-white"
                               }`}
                             >
-                              {item[0].notificationPhoto && (
-                                <Image
-                                  src={item[0].notificationPhoto}
-                                  layout="fill"
-                                  objectFit="cover"
-                                  className="rounded-full"
-                                />
-                              )}
-                            </div>
-                            <div className="flex h-full w-fit flex-col justify-center pl-4">
-                              <div className="text-sm">
-                                <p
-                                  className={`font-medium  ${
-                                    query.sender === item[0].notificationOffice
-                                      ? "text-white"
-                                      : "text-gray-900"
-                                  }`}
-                                >
-                                  {item[0].notificationOffice}
-                                </p>
-                                <div
-                                  className={`w-80 overflow-hidden overflow-ellipsis whitespace-nowrap ${
-                                    query.sender === item[0].notificationOffice
-                                      ? "text-sky-100"
-                                      : "text-gray-500"
-                                  }`}
-                                >
-                                  <span className="inline">
-                                    {item[0].notificationMessage}
-                                  </span>
+                              <div
+                                className={`relative h-12 w-12 rounded-full border-2 ${
+                                  query.sender === item[0].notificationOffice
+                                    ? "border-white/50"
+                                    : "border-black/50"
+                                }`}
+                              >
+                                {item[0].notificationPhoto && (
+                                  <Image
+                                    src={item[0].notificationPhoto}
+                                    layout="fill"
+                                    objectFit="cover"
+                                    className="rounded-full"
+                                  />
+                                )}
+                              </div>
+                              <div className="flex h-full w-fit flex-col justify-center pl-4">
+                                <div className="text-sm">
+                                  <p
+                                    className={`font-medium  ${
+                                      query.sender ===
+                                      item[0].notificationOffice
+                                        ? "text-white"
+                                        : "text-gray-900"
+                                    }`}
+                                  >
+                                    {item[0].notificationOffice}
+                                  </p>
+                                  <div
+                                    className={`w-80 overflow-hidden overflow-ellipsis whitespace-nowrap ${
+                                      query.sender ===
+                                      item[0].notificationOffice
+                                        ? "text-sky-100"
+                                        : "text-gray-500"
+                                    }`}
+                                  >
+                                    <span className="inline">
+                                      {item[0].notificationMessage}
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </Link>
+                          </Link>
+                        </div>
                       )}
                     </div>
                   ))}
