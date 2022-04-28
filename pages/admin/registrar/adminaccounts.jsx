@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { getSession } from "next-auth/react";
 import axios from "axios";
 import { XCircleIcon } from "@heroicons/react/solid";
+import SideBar from "../../../components/SideBar.Registrar";
 
 export default function AdminAccounts({ admins, session }) {
   const [list, setList] = useState(admins);
@@ -82,8 +83,10 @@ export default function AdminAccounts({ admins, session }) {
         </Head>
         <TopBar />
         <div className="h-full w-1/4">
-          <SideBarCLA
-            path={"/admin/" + session.department.toLowerCase() + "/newadmin"}
+          <SideBar
+            path={
+              "/admin/" + session.department.toLowerCase() + "/adminaccounts"
+            }
             session={session}
           />
         </div>
