@@ -226,6 +226,8 @@ export default function Reports({ session, students }) {
                         ? filterFirstNames
                         : yearLevelsQuery
                         ? filterYearLevels
+                        : coursesQuery
+                        ? coursesQuery
                         : list
                       ).length -
                         10
