@@ -227,7 +227,11 @@ export default function Approval({ session, period, endpoint }) {
         </Head>
         <TopBar />
         <div className="h-full w-1/4">
-          <SideBar path={`approval/${course.alt}`} session={session} />
+          <SideBar
+            path={`approval/${course.alt}`}
+            endpoint={endpoint}
+            session={session}
+          />
         </div>
         <div className="h-full w-3/4">
           <ScrollArea>

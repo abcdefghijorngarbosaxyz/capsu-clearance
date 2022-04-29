@@ -51,7 +51,6 @@ export default function StudentV2({
   const toggleClearanceFullScreen = () => {
     $("#fullclearanceview").get(0).requestFullscreen();
   };
-
   const handleApply = async () => {
     setLoading(true);
     const { data } = await axios.post("/api/student/apply", {

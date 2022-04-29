@@ -115,17 +115,22 @@ export default function AdminAccounts({ admins, session }) {
             <div className="h-full w-full p-8">
               <div className="flex w-full items-center justify-between">
                 <div className="prose prose-slate dark:prose-invert">
-                  <h1>Admin Accounts</h1>
+                  <h1>
+                    {query.action && query.action === "add" && "Add new admin"}
+                    {query.action &&
+                      query.action === "delete" &&
+                      "Delete admin"}
+                  </h1>
                 </div>
                 {query.action && query.action === "delete" ? (
                   <Link href={`/admin/registrar/adminaccounts?action=add`}>
-                    <div className="cursor-pointer rounded-lg bg-blue-400 p-2 text-sm font-bold text-white hover:bg-blue-600">
+                    <div className="cursor-pointer rounded-lg bg-blue-400 p-2 text-sm font-bold text-white shadow hover:bg-blue-600">
                       Add new admin
                     </div>
                   </Link>
                 ) : query.action && query.action === "add" ? (
                   <Link href={`/admin/registrar/adminaccounts?action=delete`}>
-                    <div className="cursor-pointer rounded-lg bg-red-400 p-2 text-sm font-bold text-white hover:bg-red-600">
+                    <div className="cursor-pointer rounded-lg bg-red-400 p-2 text-sm font-bold text-white shadow hover:bg-red-600">
                       Delete admin
                     </div>
                   </Link>
@@ -153,7 +158,12 @@ export default function AdminAccounts({ admins, session }) {
                       ))
                   ) : (
                     <div className="text-md flex w-full justify-center pt-4 text-slate-500">
-                      No new admins
+                      No other admins
+                    </div>
+                  )}
+                  {list.length <= 1 && (
+                    <div className="text-md flex w-full justify-center pt-4 text-slate-500">
+                      No other admins
                     </div>
                   )}
                 </div>

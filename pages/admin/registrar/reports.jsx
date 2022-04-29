@@ -1,46 +1,18 @@
-import { getSession } from "next-auth/react";
 import axios from "axios";
-import TopBar from "../../../../components/TopBar";
-import SideBar from "../../../../components/SideBar.Registrar";
+import { getSession } from "next-auth/react";
 import Head from "next/head";
-import io from "socket.io-client";
-import { useEffect, useState } from "react";
-import ScrollArea from "../../../../components/extras/ScrollArea";
+import ScrollArea from "../../../components/extras/ScrollArea";
+import SideBar from "../../../components/SideBar.Registrar";
+import TopBar from "../../../components/TopBar";
+import { useState, useEffect } from "react";
 import {
-  SearchIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  SearchIcon,
 } from "@heroicons/react/outline";
-import { MailIcon, ThumbUpIcon } from "@heroicons/react/solid";
-import DialogModal from "../../../../components/extras/DialogModal";
 import Image from "next/image";
 
-const course = {
-  name: "Food Technology",
-  short: "BSFT",
-  alt: "foodtech",
-};
-var socket;
-
-export default function Approval({ session, period, endpoint }) {
-  socket = io(endpoint);
-
-  const [socketconnected, setSocketconnected] = useState(false);
-  const [newData, setNewData] = useState(0);
-  const [studentIDQuery, setStudentIDQuery] = useState("");
-  const [lastNamesQuery, setLastNamesQuery] = useState("");
-  const [firstNamesQuery, setFirstNamesQuery] = useState("");
-  const [yearLevelsQuery, setYearlevelsQuery] = useState(0);
-
-  const [list, setList] = useState([]);
-  const [limit, setLimit] = useState(10);
-  const [skip, setSkip] = useState(0);
-
-  const [approveModalOpen, setApproveModalOpen] = useState(false);
-  const [messageModalOpen, setMessageModalOpen] = useState(false);
-  const [selectedId, setSelectedId] = useState("");
-  const [message, setMessage] = useState("");
-
+export default function Reports({ session, students }) {
   const handleBack = () => {
     setSkip(skip - 10);
     setLimit(limit - 10);
@@ -49,6 +21,15 @@ export default function Approval({ session, period, endpoint }) {
     setSkip(skip + 10);
     setLimit(limit + 10);
   };
+  const [studentIDQuery, setStudentIDQuery] = useState("");
+  const [lastNamesQuery, setLastNamesQuery] = useState("");
+  const [firstNamesQuery, setFirstNamesQuery] = useState("");
+  const [yearLevelsQuery, setYearlevelsQuery] = useState(0);
+  const [coursesQuery, setCoursesQuery] = useState("");
+
+  const [list, setList] = useState(students);
+  const [limit, setLimit] = useState(10);
+  const [skip, setSkip] = useState(0);
 
   const filterFirstNames = list.filter((list) =>
     list.firstname
@@ -75,69 +56,12 @@ export default function Approval({ session, period, endpoint }) {
       .includes(studentIDQuery.toLowerCase().replace(/\s+/g, ""))
   );
 
-  const sendApproveModalState = (approveModalOpen) => {
-    setApproveModalOpen(approveModalOpen);
-  };
-
-  const sendMessageModalState = (messageModalOpen) => {
-    setMessageModalOpen(messageModalOpen);
-  };
-
-  const handleMessage = async () => {
-    const { data } = await axios.post("/api/admin/sendnotification", {
-      studentid: selectedId,
-      notificationOffice: session.office,
-      notificationMessage: message,
-      userphoto: session.userphoto,
-      sender: session.firstname + " " + session.lastname,
-    });
-    if (data) socket.emit("message registrar update", { id: selectedId });
-  };
-
-  const handleApprove = async () => {
-    try {
-      const { data } = await axios.post("/api/admin/registrar/approve", {
-        studentid: selectedId,
-      });
-      if (data.message === "Approved") {
-        const { data } = await axios.post(
-          "/api/admin/registrar/newsemesterstatus",
-          {
-            studentid: selectedId,
-            schoolyear: period.schoolyear,
-            semester: period.semester,
-            term: period.term,
-          }
-        );
-        if (data.message === "Insert current semester status success!") {
-          socket.emit("clearance list registrar update", course.short);
-          socket.emit("clearance collecting update", course.short);
-          socket.emit("clearance library update", course.short);
-          socket.emit("clearance osa update", course.short);
-          socket.emit(
-            "clearance " + course.short.toLowerCase() + " update",
-            course.short
-          );
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    socket.on("connection", () => {
-      setSocketconnected(true);
-    });
-    socket.emit("clearance list registrar initial", course.short);
-    socket.on("clearance list data initial", (students) => {
-      setList(students);
-    });
-    socket.on("clearance list data update", (students) => {
-      setList(students);
-    });
-  }, []);
-
+  const filterCourses = list.filter((list) =>
+    list.department
+      .toLowerCase()
+      .replace(/\s+/g, "")
+      .includes(coursesQuery.toLowerCase().replace(/\s+/g, ""))
+  );
   const ListRow = ({
     id,
     studentid,
@@ -147,6 +71,8 @@ export default function Approval({ session, period, endpoint }) {
     middle,
     year,
     index,
+    applied,
+    course,
   }) => {
     return (
       <div
@@ -187,28 +113,13 @@ export default function Approval({ session, period, endpoint }) {
         <div className="w-48 pl-2">{first}</div>
         <div className="w-8 pl-2">{middle.charAt(0)}</div>
         <div className="w-12 pl-2">{year}</div>
-        <div className="flex w-44 pl-2">
-          <button
-            onClick={() => {
-              setApproveModalOpen(true);
-              setSelectedId(id);
-            }}
-            className="flex items-center text-xs text-green-500 hover:text-green-600"
-          >
-            <ThumbUpIcon className="h-5 w-5" />
-            Approve
-          </button>
-          <button
-            onClick={() => {
-              setMessageModalOpen(true);
-              setSelectedId(id);
-              setMessage("");
-            }}
-            className="ml-4 flex items-center text-xs text-yellow-500 hover:text-yellow-600"
-          >
-            <MailIcon className="h-5 w-5" />
-            Message
-          </button>
+        <div className="w-24 pl-2">{course}</div>
+        <div className="w-22 pl-2">
+          {applied ? (
+            <p className="text-green-600">Applied</p>
+          ) : (
+            <p className="text-red-600">Not applied</p>
+          )}
         </div>
       </div>
     );
@@ -223,23 +134,18 @@ export default function Approval({ session, period, endpoint }) {
       </div>
       <div className="hidden h-screen w-screen pt-20 lg:flex">
         <Head>
-          <title>{course.name} - For Approval | Registrar</title>
+          <title>Reports | Registrar</title>
         </Head>
         <TopBar />
         <div className="h-full w-1/4">
-          <SideBar
-            path={`approval/${course.alt}`}
-            endpoint={endpoint}
-            session={session}
-          />
+          <SideBar path="/admin/registrar/reports" session={session} />
         </div>
         <div className="h-full w-3/4">
           <ScrollArea>
             <div className="h-full w-full p-8">
               <div className="flex w-full justify-between">
                 <div className="prose prose-slate w-full dark:prose-invert">
-                  <h1 className="m-0 p-0">{course.name}</h1>
-                  <h6 className="">For approval</h6>
+                  <h1 className="m-0 p-0">Reports</h1>
                 </div>
                 <div className="flex w-full items-center justify-end space-x-2 text-sm font-semibold">
                   <h6>
@@ -252,6 +158,8 @@ export default function Approval({ session, period, endpoint }) {
                       ? filterFirstNames
                       : yearLevelsQuery
                       ? filterYearLevels
+                      : coursesQuery
+                      ? coursesQuery
                       : list
                     ).length == 0
                       ? skip
@@ -266,6 +174,8 @@ export default function Approval({ session, period, endpoint }) {
                       ? filterFirstNames
                       : yearLevelsQuery
                       ? filterYearLevels
+                      : coursesQuery
+                      ? coursesQuery
                       : list
                     ).length
                       ? (studentIDQuery
@@ -276,6 +186,8 @@ export default function Approval({ session, period, endpoint }) {
                           ? filterFirstNames
                           : yearLevelsQuery
                           ? filterYearLevels
+                          : coursesQuery
+                          ? coursesQuery
                           : list
                         ).length
                       : limit}{" "}
@@ -289,6 +201,8 @@ export default function Approval({ session, period, endpoint }) {
                         ? filterFirstNames
                         : yearLevelsQuery
                         ? filterYearLevels
+                        : coursesQuery
+                        ? coursesQuery
                         : list
                       ).length
                     }
@@ -330,7 +244,10 @@ export default function Approval({ session, period, endpoint }) {
                     <div className="relative">
                       <input
                         disabled={
-                          lastNamesQuery || firstNamesQuery || yearLevelsQuery
+                          lastNamesQuery ||
+                          firstNamesQuery ||
+                          yearLevelsQuery ||
+                          coursesQuery
                         }
                         onChange={(event) => {
                           setStudentIDQuery(event.target.value);
@@ -346,7 +263,10 @@ export default function Approval({ session, period, endpoint }) {
                     <div className="relative">
                       <input
                         disabled={
-                          firstNamesQuery || studentIDQuery || yearLevelsQuery
+                          firstNamesQuery ||
+                          studentIDQuery ||
+                          yearLevelsQuery ||
+                          coursesQuery
                         }
                         onChange={(event) => {
                           setLastNamesQuery(event.target.value);
@@ -362,7 +282,10 @@ export default function Approval({ session, period, endpoint }) {
                     <div className="relative">
                       <input
                         disabled={
-                          studentIDQuery || lastNamesQuery || yearLevelsQuery
+                          studentIDQuery ||
+                          lastNamesQuery ||
+                          yearLevelsQuery ||
+                          coursesQuery
                         }
                         onChange={(event) => {
                           setFirstNamesQuery(event.target.value);
@@ -379,11 +302,33 @@ export default function Approval({ session, period, endpoint }) {
                     <div className="relative">
                       <input
                         disabled={
-                          studentIDQuery || lastNamesQuery || firstNamesQuery
+                          studentIDQuery ||
+                          lastNamesQuery ||
+                          firstNamesQuery ||
+                          coursesQuery
                         }
                         maxLength={1}
                         onChange={(event) => {
                           setYearlevelsQuery(event.target.value);
+                          setSkip(0);
+                        }}
+                        className="flex w-full items-center rounded border border-gray-300 bg-transparent p-1 text-sm"
+                      ></input>
+                      <SearchIcon className="absolute top-2 right-1 h-4 w-4 text-gray-400" />
+                    </div>
+                  </div>
+                  <div className="w-24">
+                    <h6>Course</h6>
+                    <div className="relative">
+                      <input
+                        disabled={
+                          studentIDQuery ||
+                          lastNamesQuery ||
+                          firstNamesQuery ||
+                          yearLevelsQuery
+                        }
+                        onChange={(event) => {
+                          setCoursesQuery(event.target.value);
                           setSkip(0);
                         }}
                         className="flex w-full items-center rounded border border-gray-300 bg-transparent p-1 text-sm"
@@ -405,6 +350,8 @@ export default function Approval({ session, period, endpoint }) {
                           first={item.firstname}
                           middle={item.middlename}
                           year={item.yearlevel}
+                          applied={item.applied.isApplied}
+                          course={item.department}
                         />
                       </div>
                     ))
@@ -420,6 +367,8 @@ export default function Approval({ session, period, endpoint }) {
                           first={item.firstname}
                           middle={item.middlename}
                           year={item.yearlevel}
+                          applied={item.applied.isApplied}
+                          course={item.department}
                         />
                       </div>
                     ))
@@ -435,6 +384,8 @@ export default function Approval({ session, period, endpoint }) {
                           first={item.firstname}
                           middle={item.middlename}
                           year={item.yearlevel}
+                          applied={item.applied.isApplied}
+                          course={item.department}
                         />
                       </div>
                     ))
@@ -452,9 +403,28 @@ export default function Approval({ session, period, endpoint }) {
                             first={item.firstname}
                             middle={item.middlename}
                             year={item.yearlevel}
+                            applied={item.applied.isApplied}
+                            course={item.department}
                           />
                         </div>
                       ))
+                  ) : coursesQuery != 0 ? (
+                    filterCourses.slice(skip, skip + 10).map((item, index) => (
+                      <div key={index}>
+                        <ListRow
+                          index={index}
+                          studentid={item.username}
+                          id={item._id}
+                          photo={item.userphoto}
+                          last={item.lastname}
+                          first={item.firstname}
+                          middle={item.middlename}
+                          year={item.yearlevel}
+                          applied={item.applied.isApplied}
+                          course={item.department}
+                        />
+                      </div>
+                    ))
                   ) : list.length > 0 ? (
                     list.slice(skip, skip + 10).map((item, index) => (
                       <div key={index}>
@@ -467,6 +437,8 @@ export default function Approval({ session, period, endpoint }) {
                           first={item.firstname}
                           middle={item.middlename}
                           year={item.yearlevel}
+                          applied={item.applied.isApplied}
+                          course={item.department}
                         />
                       </div>
                     ))
@@ -480,34 +452,6 @@ export default function Approval({ session, period, endpoint }) {
             </div>
           </ScrollArea>
         </div>
-        <DialogModal
-          type="submit"
-          submitAction={handleApprove}
-          open={approveModalOpen}
-          title="Confirm approve"
-          sendModalState={sendApproveModalState}
-          close="Cancel"
-          submitButton="Approve"
-          body="Are you sure you want to approve the application of this student?"
-        ></DialogModal>
-        <DialogModal
-          type="submit"
-          title="Send a message"
-          submitAction={handleMessage}
-          open={messageModalOpen}
-          sendModalState={sendMessageModalState}
-          submitButton="Send"
-          close="Cancel"
-        >
-          <textarea
-            value={message}
-            className="focus:ring-offset h-40 w-full rounded-md border border-gray-400/50 bg-transparent px-2 py-1 text-sm focus:ring-offset-sky-500 dark:border-gray-700/50"
-            onChange={(event) => {
-              setMessage(event.target.value);
-            }}
-            placeholder="Type here..."
-          ></textarea>
-        </DialogModal>
       </div>
     </>
   );
@@ -520,6 +464,9 @@ export const getServerSideProps = async (context) => {
     (process.env.NODE_ENV === "development" ? "http://" : "https://") +
     `${process.env.HOSTNAME}`;
   const { data: period } = await axios.get(host + "/api/getperiod");
+  const { data: students } = await axios.get(
+    host + "/api/admin/registrar/reports"
+  );
   if (session) {
     const { role, department } = session;
     if (role === "Admin" && department === "Registrar") {
@@ -527,8 +474,8 @@ export const getServerSideProps = async (context) => {
         props: {
           endpoint: process.env.SOCKETIO_ENDPOINT,
           session,
-          course,
           period: period.period,
+          students: students.students,
         },
       };
     } else if (role === "Student")

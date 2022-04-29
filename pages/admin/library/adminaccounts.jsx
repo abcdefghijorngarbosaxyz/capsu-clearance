@@ -116,7 +116,7 @@ export default function AdminAccounts({ admins, session }) {
                   <Link
                     href={`/admin/${session.department.toLowerCase()}/adminaccounts?action=add`}
                   >
-                    <div className="cursor-pointer rounded-lg bg-blue-400 p-2 text-sm font-bold text-white hover:bg-blue-600">
+                    <div className="cursor-pointer rounded-lg bg-blue-400 p-2 text-sm font-bold text-white shadow hover:bg-blue-600">
                       Add new admin
                     </div>
                   </Link>
@@ -124,7 +124,7 @@ export default function AdminAccounts({ admins, session }) {
                   <Link
                     href={`/admin/${session.department.toLowerCase()}/adminaccounts?action=delete`}
                   >
-                    <div className="cursor-pointer rounded-lg bg-red-400 p-2 text-sm font-bold text-white hover:bg-red-600">
+                    <div className="cursor-pointer rounded-lg bg-red-400 p-2 text-sm font-bold text-white shadow hover:bg-red-600">
                       Delete admin
                     </div>
                   </Link>
@@ -153,6 +153,16 @@ export default function AdminAccounts({ admins, session }) {
                   ) : (
                     <div className="text-md flex w-full justify-center pt-4 text-slate-500">
                       No new admins
+                    </div>
+                  )}
+                  {list.length <= 1 && (
+                    <div className="text-md flex w-full justify-center pt-4 text-slate-500">
+                      No other admins
+                    </div>
+                  )}
+                  {list.length <= 1 && (
+                    <div className="text-md flex w-full justify-center pt-4 text-slate-500">
+                      No other admins
                     </div>
                   )}
                 </div>

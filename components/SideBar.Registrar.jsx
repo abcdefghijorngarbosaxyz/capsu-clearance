@@ -6,7 +6,7 @@ import ScrollArea from "../components/extras/ScrollArea";
 import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/outline";
 
-export default function SideBar({ session, path }) {
+export default function SideBar({ session, path, endpoint }) {
   const approvalOpen = useRouter().pathname.includes("approval");
   const completionOpen = useRouter().pathname.includes("completion");
   const manageOpen = !approvalOpen && !completionOpen;
@@ -63,6 +63,34 @@ export default function SideBar({ session, path }) {
       name: "Elementary Education",
       shortname: "education",
       link: "/admin/registrar/completion/education",
+    },
+  ];
+
+  const reports = [
+    {
+      name: "Computer Science",
+      shortname: "computerscience",
+      link: "/admin/registrar/reports/computerscience",
+    },
+    {
+      name: "Food Technology",
+      shortname: "foodtech",
+      link: "/admin/registrar/reports/foodtech",
+    },
+    {
+      name: "Fisheries",
+      shortname: "fisheries",
+      link: "/admin/registrar/reports/fisheries",
+    },
+    {
+      name: "Criminology",
+      shortname: "criminology",
+      link: "/admin/registrar/reports/criminology",
+    },
+    {
+      name: "Elementary Education",
+      shortname: "education",
+      link: "/admin/registrar/reports/education",
     },
   ];
 
@@ -281,6 +309,25 @@ export default function SideBar({ session, path }) {
                           } mb-6 pl-4 group-hover:text-black dark:group-hover:text-white `}
                         >
                           Admin accounts
+                        </h4>
+                      </div>
+                    </Link>
+                    <Link href="/admin/registrar/reports?course=bscs">
+                      <div
+                        className={`group flex h-6 w-fit cursor-pointer items-center border-l py-5 pl-8 ${
+                          currentLink("/admin/registrar/reports")
+                            ? "border-sky-500"
+                            : "border-gray-400 dark:border-gray-700"
+                        }`}
+                      >
+                        <h4
+                          className={`${
+                            currentLink("/admin/registrar/reports")
+                              ? "text-black dark:text-white"
+                              : "text-slate-700 dark:text-slate-400"
+                          } mb-6 pl-4 group-hover:text-black dark:group-hover:text-white `}
+                        >
+                          Reports
                         </h4>
                       </div>
                     </Link>
