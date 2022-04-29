@@ -159,7 +159,7 @@ export default function Reports({ session, students }) {
                       : yearLevelsQuery
                       ? filterYearLevels
                       : coursesQuery
-                      ? coursesQuery
+                      ? filterCourses
                       : list
                     ).length == 0
                       ? skip
@@ -175,7 +175,7 @@ export default function Reports({ session, students }) {
                       : yearLevelsQuery
                       ? filterYearLevels
                       : coursesQuery
-                      ? coursesQuery
+                      ? filterCourses
                       : list
                     ).length
                       ? (studentIDQuery
@@ -187,7 +187,7 @@ export default function Reports({ session, students }) {
                           : yearLevelsQuery
                           ? filterYearLevels
                           : coursesQuery
-                          ? coursesQuery
+                          ? filterCourses
                           : list
                         ).length
                       : limit}{" "}
@@ -202,7 +202,7 @@ export default function Reports({ session, students }) {
                         : yearLevelsQuery
                         ? filterYearLevels
                         : coursesQuery
-                        ? coursesQuery
+                        ? filterCourses
                         : list
                       ).length
                     }
@@ -227,7 +227,7 @@ export default function Reports({ session, students }) {
                         : yearLevelsQuery
                         ? filterYearLevels
                         : coursesQuery
-                        ? coursesQuery
+                        ? filterCourses
                         : list
                       ).length -
                         10
