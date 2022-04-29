@@ -312,7 +312,7 @@ export default function SideBar({ session, path, endpoint }) {
                         </h4>
                       </div>
                     </Link>
-                    <Link href="/admin/registrar/reports?course=bscs">
+                    <Link href="/admin/registrar/reports">
                       <div
                         className={`group flex h-6 w-fit cursor-pointer items-center border-l py-5 pl-8 ${
                           currentLink("/admin/registrar/reports")
