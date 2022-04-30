@@ -11,8 +11,10 @@ import {
 } from "@heroicons/react/outline";
 import Link from "next/link";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 export default function ResetPassword({ uploadpreset, cloudinaryapi }) {
+  const router = useRouter();
   const [isFetching, setIsFetching] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");
   const [username, setUsername] = useState("");
@@ -157,7 +159,9 @@ export default function ResetPassword({ uploadpreset, cloudinaryapi }) {
                 </button>
               </div>
               <div className="mt-4 flex justify-center text-sm font-semibold text-blue-500 hover:underline">
-                <Link href={`/signin`}>or Signin</Link>
+                <span className="cursor-pointer" onClick={() => router.back()}>
+                  or Signin
+                </span>
               </div>
             </form>
           </div>
