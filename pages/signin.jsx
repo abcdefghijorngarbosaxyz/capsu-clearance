@@ -14,6 +14,7 @@ import Spinner from "../components/extras/Spinner";
 import { useRouter } from "next/router";
 import TopBar from "../components/TopBar";
 import Image from "next/image";
+import Link from "next/link";
 
 const roles = [{ name: "Student" }, { name: "Admin" }];
 
@@ -61,7 +62,7 @@ export default function Signin({ csrfToken }) {
   return (
     <>
       <Head>
-        <title>Sign in</title>
+        <title>Sign in | Online Students&apos; Clearance System</title>
       </Head>
 
       <TopBar />
@@ -218,7 +219,7 @@ export default function Signin({ csrfToken }) {
                   </Listbox>
                 </div>
                 <div className="flex h-fit w-1/2 items-center">
-                  <input
+                  {/* <input
                     onClick={(event) => {
                       setPersist(event.target.checked);
                     }}
@@ -233,7 +234,12 @@ export default function Signin({ csrfToken }) {
                     className="ml-2 block text-sm font-semibold text-gray-900 dark:text-gray-300"
                   >
                     Remember me
-                  </label>
+                  </label> */}
+                  <div className="block text-sm font-semibold text-blue-500 hover:underline">
+                    <Link href={`/account/password/reset`}>
+                      Forgot password?
+                    </Link>
+                  </div>
                 </div>
               </div>
               <input

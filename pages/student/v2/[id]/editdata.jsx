@@ -6,6 +6,7 @@ import TopBar from "../../../../components/TopBar";
 import Image from "next/image";
 import axios from "axios";
 import Spinner from "../../../../components/extras/Spinner";
+import Link from "next/link";
 
 export default function StudentV2EditData({
   session,
@@ -251,18 +252,28 @@ export default function StudentV2EditData({
                             </div>
                           )
                         ) : (
-                          <div className="relative h-6 rounded bg-violet-500 px-2 py-0 ring-2 ring-white ring-opacity-60 ring-offset-2 ring-offset-violet-300 hover:bg-violet-400">
-                            <label className="absolute left-1" htmlFor="upload">
-                              Upload
-                            </label>
-                            <input
-                              name="upload"
-                              type="file"
-                              accept="image/*"
-                              onChange={previewHandlerSignature}
-                              className="w-11 opacity-0"
-                            />
-                          </div>
+                          <>
+                            <div className="relative mr-2 h-6 rounded bg-violet-500 px-2 py-0 ring-2 ring-white ring-opacity-60 ring-offset-2 ring-offset-violet-300 hover:bg-violet-400">
+                              <label
+                                className="absolute left-1"
+                                htmlFor="upload"
+                              >
+                                Upload
+                              </label>
+                              <input
+                                name="upload"
+                                type="file"
+                                accept="image/png"
+                                onChange={previewHandlerSignature}
+                                className="w-11 opacity-0"
+                              />
+                            </div>
+                            <Link href="/howto/#signature-upload">
+                              <span className="cursor-pointer text-sm text-blue-900 underline">
+                                How?
+                              </span>
+                            </Link>
+                          </>
                         )}
                       </div>
                     </div>

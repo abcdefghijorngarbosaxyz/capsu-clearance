@@ -76,7 +76,7 @@ export default function Reports({ session, students }) {
   }) => {
     return (
       <div
-        className={`flex h-16 items-center space-x-2 border-b py-2 px-4 text-sm font-semibold text-black ${
+        className={`flex h-16 items-center space-x-2 border-b border-gray-300 py-2 px-4 text-sm font-semibold text-black ${
           index % 2 != 0 ? "bg-gray-100" : "bg-white"
         }`}
       >
@@ -113,12 +113,12 @@ export default function Reports({ session, students }) {
         <div className="w-48 pl-2">{first}</div>
         <div className="w-8 pl-2">{middle.charAt(0)}</div>
         <div className="w-12 pl-2">{year}</div>
-        <div className="w-24 pl-2">{course}</div>
-        <div className="w-22 pl-2">
+        <div className="w-16 pl-2">{course}</div>
+        <div className="w-fit pl-2">
           {applied ? (
-            <p className="text-green-600">Applied</p>
+            <p className="text-green-600">Yes</p>
           ) : (
-            <p className="text-red-600">Not applied</p>
+            <p className="text-red-600">No</p>
           )}
         </div>
       </div>
@@ -319,7 +319,7 @@ export default function Reports({ session, students }) {
                       <SearchIcon className="absolute top-2 right-1 h-4 w-4 text-gray-400" />
                     </div>
                   </div>
-                  <div className="w-24">
+                  <div className="w-16">
                     <h6>Course</h6>
                     <div className="relative">
                       <input
@@ -337,6 +337,9 @@ export default function Reports({ session, students }) {
                       ></input>
                       <SearchIcon className="absolute top-2 right-1 h-4 w-4 text-gray-400" />
                     </div>
+                  </div>
+                  <div>
+                    <h6>Applied</h6>
                   </div>
                 </div>
                 <div className="h-fit w-full">

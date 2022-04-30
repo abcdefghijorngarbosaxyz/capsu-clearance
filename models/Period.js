@@ -15,6 +15,10 @@ const PeriodSchema = new mongoose.Schema({
     type: String,
     default: "Midterm",
   },
+  open: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 export default mongoose.models.Period || mongoose.model("Period", PeriodSchema);

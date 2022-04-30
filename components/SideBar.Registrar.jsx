@@ -6,7 +6,7 @@ import ScrollArea from "../components/extras/ScrollArea";
 import { Disclosure } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/outline";
 
-export default function SideBar({ session, path, endpoint }) {
+export default function SideBar({ session, path }) {
   const approvalOpen = useRouter().pathname.includes("approval");
   const completionOpen = useRouter().pathname.includes("completion");
   const manageOpen = !approvalOpen && !completionOpen;
@@ -203,6 +203,7 @@ export default function SideBar({ session, path, endpoint }) {
                 </>
               )}
             </Disclosure>
+
             <Disclosure defaultOpen={completionOpen}>
               {({ open }) => (
                 <>
@@ -251,6 +252,7 @@ export default function SideBar({ session, path, endpoint }) {
                 </>
               )}
             </Disclosure>
+
             <Disclosure defaultOpen={manageOpen}>
               {({ open }) => (
                 <>
@@ -328,6 +330,27 @@ export default function SideBar({ session, path, endpoint }) {
                           } mb-6 pl-4 group-hover:text-black dark:group-hover:text-white `}
                         >
                           Reports
+                        </h4>
+                      </div>
+                    </Link>
+                    <Link href="/admin/registrar/requests/resetpassword">
+                      <div
+                        className={`group flex h-6 w-fit cursor-pointer items-center border-l py-5 pl-8 ${
+                          currentLink("/admin/registrar/requests/resetpassword")
+                            ? "border-sky-500"
+                            : "border-gray-400 dark:border-gray-700"
+                        }`}
+                      >
+                        <h4
+                          className={`${
+                            currentLink(
+                              "/admin/registrar/requests/resetpassword"
+                            )
+                              ? "text-black dark:text-white"
+                              : "text-slate-700 dark:text-slate-400"
+                          } mb-6 pl-4 group-hover:text-black dark:group-hover:text-white `}
+                        >
+                          Password reset requests
                         </h4>
                       </div>
                     </Link>

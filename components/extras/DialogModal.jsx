@@ -1,4 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
+import Image from "next/image";
 import { Fragment, useState } from "react";
 
 export default function DialogModal({
@@ -56,7 +57,7 @@ export default function DialogModal({
               leaveTo="opacity-0 scale-95"
             >
               {type === "custom" ? (
-                <div className="inline-block w-full max-w-md transform overflow-hidden rounded-2xl text-left align-middle shadow-xl transition-all dark:bg-gray-900">
+                <div className="inline-block w-full max-w-md transform overflow-hidden align-middle transition-all">
                   {children}
                 </div>
               ) : (
@@ -72,6 +73,17 @@ export default function DialogModal({
                       <h1 className="flex h-fit w-full justify-center p-8 text-6xl font-bold text-gray-900 dark:text-white">
                         {flash}
                       </h1>
+                    )}
+                    {type === "warning" && (
+                      <div className="flex h-fit w-full justify-center py-4">
+                        <div className="relative h-16 w-16">
+                          <Image
+                            src="/assets/icons/warning.png"
+                            layout="fill"
+                            objectFit="contain"
+                          />
+                        </div>
+                      </div>
                     )}
                     {children}
                     <p className="text-sm text-gray-400">{body}</p>
@@ -89,6 +101,18 @@ export default function DialogModal({
                       <button
                         type="button"
                         className="ml-4 inline-flex justify-center rounded-md border border-transparent bg-sky-400 px-4 py-2 text-sm font-medium text-white hover:bg-sky-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 dark:text-gray-900"
+                        onClick={() => {
+                          submitAction();
+                          sendModalState(false);
+                        }}
+                      >
+                        {submitButton}
+                      </button>
+                    )}
+                    {type === "warning" && (
+                      <button
+                        type="button"
+                        className="ml-4 inline-flex justify-center rounded-md border border-transparent bg-red-500 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
                         onClick={() => {
                           submitAction();
                           sendModalState(false);

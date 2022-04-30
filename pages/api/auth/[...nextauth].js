@@ -37,6 +37,7 @@ const nextAuthOptions = (req, res) => {
           token.section = user.section;
           token.middlename = user.middlename;
           token.office = user.office;
+          token.signature = user.signature;
           token.applieddate =
             user.role === "Admin" ? null : user.applied.appliedDate;
         }
@@ -57,6 +58,7 @@ const nextAuthOptions = (req, res) => {
           session.office = token.office;
           session.middlename = token.middlename;
           session.applieddate = token.applieddate;
+          session.signature = token.signature;
         }
 
         return session;

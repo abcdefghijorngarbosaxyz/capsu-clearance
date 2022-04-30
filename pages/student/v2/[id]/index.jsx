@@ -17,6 +17,7 @@ import { useReactToPrint } from "react-to-print";
 import jsPDF from "jspdf";
 import $ from "jquery";
 import DialogModal from "../../../../components/extras/DialogModal";
+import Router from "next/router";
 
 var socket;
 
@@ -37,6 +38,8 @@ export default function StudentV2({
   const [loading, setLoading] = useState(false);
   const [clearance, setClearance] = useState([]);
   const [applyModalOpen, setApplyModalOpen] = useState(false);
+  const [requireSignatureModalOpen, setRequireSignatureModalOpen] =
+    useState(false);
 
   useEffect(() => {
     socket.emit("clearance status initial", session);
@@ -63,9 +66,18 @@ export default function StudentV2({
     }
   };
 
+  const handleSetSignatureRedirect = () => {
+    return Router.push(`/student/v2/${session.id}/editdata`);
+  };
+
   const sendApplyModalState = (applyModalOpen) => {
     setApplyModalOpen(applyModalOpen);
   };
+
+  const sendRequireSignatureModalState = (requireSignatureModalOpen) => {
+    setRequireSignatureModalOpen(requireSignatureModalOpen);
+  };
+
   const handlePrint = useReactToPrint({
     content: () => printComponentRef.current,
     documentTitle:
@@ -97,7 +109,13 @@ export default function StudentV2({
               <h1>Exam Clearance</h1>
             </div>
             <div className="flex w-full pr-8">
-              <div className="mb-8 h-fit w-full rounded-lg  bg-gradient-to-r from-blue-400 to-blue-600 p-4 xl:w-2/3">
+              <div
+                className={`mb-8 h-fit w-full rounded-lg  bg-gradient-to-r ${
+                  period.open
+                    ? "from-blue-400 to-blue-600"
+                    : "from-red-400 to-red-600"
+                } p-4 xl:w-2/3`}
+              >
                 {loading ? (
                   <div className="flex justify-center py-8">
                     <Spinner color="bg-white" />
@@ -301,17 +319,35 @@ export default function StudentV2({
                   </div>
                 ) : (
                   <div className="flex flex-col items-center space-y-4 py-8">
-                    <h3 className="text-lg font-bold text-white">
-                      You haven&apos;t applied for clearance yet.
-                    </h3>
-                    <button
-                      className="rounded-md bg-gray-100 py-2 px-4 text-sm font-semibold text-black shadow-md hover:bg-white"
-                      onClick={() => {
-                        setApplyModalOpen(true);
-                      }}
+                    <h3
+                      className={`text-lg font-bold ${
+                        !period.open
+                          ? "text-gray-300 line-through"
+                          : "text-white"
+                      }`}
                     >
-                      Apply now
-                    </button>
+                      You haven&apos;t applied for the examination clearance
+                      yet.
+                    </h3>
+                    {!period.open && (
+                      <h3 className="text-lg font-bold text-white">
+                        The processing of exam clearance for the current period
+                        is ended.
+                      </h3>
+                    )}
+                    {period.open && (
+                      <button
+                        className="rounded-md bg-gray-100 py-2 px-4 text-sm font-semibold text-blue-500 shadow-md hover:bg-white"
+                        onClick={() => {
+                          session.signature
+                            ? setApplyModalOpen(true)
+                            : setRequireSignatureModalOpen(true);
+                        }}
+                      >
+                        {" "}
+                        Apply now
+                      </button>
+                    )}
                   </div>
                 )}
               </div>
@@ -339,6 +375,16 @@ export default function StudentV2({
                 period.schoolyear}
           </div>
         </DialogModal>
+        <DialogModal
+          type="submit"
+          submitAction={handleSetSignatureRedirect}
+          open={requireSignatureModalOpen}
+          title="No signature detected"
+          sendModalState={sendRequireSignatureModalState}
+          close="Cancel"
+          submitButton="Go to settings"
+          body="Your signature is required on the examination clearance. Upload a photo of your signature."
+        ></DialogModal>
       </div>
     </>
   );

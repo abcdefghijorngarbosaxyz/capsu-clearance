@@ -138,13 +138,17 @@ export default function Messages({ session, endpoint }) {
       <>
         <div className="flex w-fit pb-8">
           <div className="relative h-8 w-8">
-            {item.notificationPhoto && (
+            {item.notificationPhoto ? (
               <Image
                 src={item.notificationPhoto}
                 layout="fill"
                 objectFit="cover"
                 className="rounded-full"
               />
+            ) : (
+              <div className="text-md flex h-full w-full items-center justify-center rounded-full bg-blue-500 text-white">
+                {item.notificationBy.charAt(0)}
+              </div>
             )}
           </div>
           <div className="ml-2 h-fit w-fit">
@@ -200,19 +204,27 @@ export default function Messages({ session, endpoint }) {
                               }`}
                             >
                               <div
-                                className={`relative h-12 w-12 rounded-full border-2 ${
+                                className={`relative h-12 w-12 rounded-full ${
+                                  item[0].notificationPhoto
+                                    ? "border-2"
+                                    : "border-none"
+                                } ${
                                   query.sender === item[0].notificationOffice
                                     ? "border-white/50"
                                     : "border-black/50"
                                 }`}
                               >
-                                {item[0].notificationPhoto && (
+                                {item[0].notificationPhoto ? (
                                   <Image
                                     src={item[0].notificationPhoto}
                                     layout="fill"
                                     objectFit="cover"
                                     className="rounded-full"
                                   />
+                                ) : (
+                                  <div className="flex h-full w-full items-center justify-center rounded-full bg-blue-500 text-xl text-white">
+                                    <p>{item[0].notificationBy.charAt(0)}</p>
+                                  </div>
                                 )}
                               </div>
                               <div className="flex h-full w-fit flex-col justify-center pl-4">

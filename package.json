@@ -10,6 +10,7 @@
     "watch:css": "npx tailwindcss -i ./styles/tailwindcss.css -o ./styles/globals.css --watch"
   },
   "dependencies": {
+    "@emailjs/browser": "^3.6.2",
     "axios": "^0.26.1",
     "bcryptjs": "^2.4.3",
     "jquery": "^3.6.0",

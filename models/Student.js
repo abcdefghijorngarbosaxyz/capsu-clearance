@@ -44,6 +44,24 @@ const StudentSchema = new mongoose.Schema({
       default: new Date(),
     },
   },
+  reset: {
+    requested: {
+      type: Boolean,
+      default: false,
+    },
+    email: {
+      type: String,
+      default: null,
+    },
+    proof: {
+      type: String,
+      default: null,
+    },
+    linkId: {
+      type: String,
+      defaul: null,
+    },
+  },
   office: {
     type: String,
     default: "Student",
