@@ -56,7 +56,7 @@ export default function VerifyTwoFactor({ session }) {
       );
   };
   useEffect(() => {
-    //sendVerificationCode();
+    sendVerificationCode();
   });
   return (
     <div>
