@@ -18,5 +18,5 @@ export default async function handler(req, res) {
     );
     if (data.id) res.status(200).json({ message: "OK" });
   }
-  if (data.id) res.status(200).json({ message: "Not OK" });
+  res.status(200).json({ message: "Not OK" });
 }
