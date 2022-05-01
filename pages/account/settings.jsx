@@ -246,7 +246,7 @@ export default function Settings({
                     </div>
                     <div className="flex h-fit w-full">
                       <div className="w-1/6"></div>
-                      <div className="flex w-5/6 flex-col items-start">
+                      <div className="flex w-5/6 flex-col items-start space-y-4">
                         {historyList.length > 0 &&
                           historyList.map((item, index) => (
                             <div key={index}>
