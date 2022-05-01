@@ -50,7 +50,7 @@ export default function Home({ session }) {
     });
     if (data.twofactor.enabled) {
       const rd = localStorage.getItem(session.username);
-      if (rd === "rd") {
+      if (rd === "rd" || rd === "temp") {
         return;
       } else {
         router.push(

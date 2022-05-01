@@ -20,7 +20,11 @@ export default function VerifyTwoFactor({ session }) {
   const handleCompare = async () => {
     if (inputOTP.length > 5 && confirmationCode == inputOTP) {
       setMatch(true);
-      if (remember) localStorage.setItem(session.username, "rd");
+      if (remember) {
+        localStorage.setItem(session.username, "rd");
+      } else {
+        localStorage.setItem(session.username, "temp");
+      }
       if (session.office !== "Department") {
         router.push("/admin/" + session.department.toLowerCase());
         return setMatch(true);
