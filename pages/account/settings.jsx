@@ -246,7 +246,7 @@ export default function Settings({
                     </div>
                     <div className="flex h-fit w-full">
                       <div className="w-1/6"></div>
-                      <div className="flex w-5/6 items-center">
+                      <div className="flex w-5/6 flex-col items-start">
                         {historyList.length > 0 &&
                           historyList.map((item, index) => (
                             <div key={index}>
@@ -343,7 +343,7 @@ export default function Settings({
                                   </div>
                                   <div className="ml-2">
                                     <div className="flex">
-                                      {platform.product}&nbsp;&middot;&nbsp;
+                                      {item.os}&nbsp;&middot;&nbsp;
                                       <div className="group relative">
                                         <span>{item.location}</span>
                                         <span className="absolute -top-8 left-2 hidden w-fit flex-col justify-start group-hover:flex">
@@ -384,7 +384,7 @@ export default function Settings({
                                   </div>
                                   <div className="ml-2">
                                     <div className="flex">
-                                      {platform.product}&nbsp;&middot;&nbsp;
+                                      {item.os}&nbsp;&middot;&nbsp;
                                       <div className="group relative">
                                         <span>{item.location}</span>
                                         <span className="absolute -top-8 left-2 hidden w-fit flex-col justify-start group-hover:flex">
