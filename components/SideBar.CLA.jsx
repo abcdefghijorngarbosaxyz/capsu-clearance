@@ -231,7 +231,14 @@ export default function SideBarCLA({ session, path }) {
           </div>
           <div className="flex h-fit w-full items-end px-4 pb-8 pt-4 lg:px-0">
             <div className="group w-fit">
-              <button onClick={signOut} className="flex h-6 w-fit items-center">
+              <button
+                onClick={() => {
+                  const rd = localStorage.getItem(session.username);
+                  if (rd === "temp") localStorage.removeItem(session.username);
+                  signOut();
+                }}
+                className="flex h-6 w-fit items-center"
+              >
                 <div className="relative h-6 w-6">
                   <Image
                     src="/assets/icons/logout.png"
