@@ -39,7 +39,10 @@ export default function Home({ session }) {
       ipaddr: ip,
       browser: user_agent.name,
       os: user_agent.os.name,
-      location: location.city + ", " + location.country.name,
+      location:
+        (location.city ? location.city : "Unknown City") +
+        ", " +
+        location.country.name,
       when: time_zone.current_time,
     });
     const { data } = await axios.post("/api/account/security/check2fac", {
