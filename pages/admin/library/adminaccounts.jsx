@@ -160,11 +160,6 @@ export default function AdminAccounts({ admins, session }) {
                       No other admins
                     </div>
                   )}
-                  {list.length <= 1 && (
-                    <div className="text-md flex w-full justify-center pt-4 text-slate-500">
-                      No other admins
-                    </div>
-                  )}
                 </div>
               ) : query.action && query.action === "add" ? (
                 <form

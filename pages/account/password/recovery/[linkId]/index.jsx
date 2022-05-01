@@ -59,7 +59,7 @@ export default function RecoveryPassword({ valid, username, csrfToken }) {
               <>
                 {" "}
                 <div className="flex h-fit w-full justify-center">
-                  <div className="relative h-10 w-10">
+                  <div className="relative h-12 w-12">
                     <Image
                       src="/assets/icons/key.png"
                       layout="fill"

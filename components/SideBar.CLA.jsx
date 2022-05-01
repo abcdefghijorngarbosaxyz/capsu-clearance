@@ -208,9 +208,7 @@ export default function SideBarCLA({ session, path }) {
             </Disclosure>
           </div>
           <div className="flex h-full w-full items-end border-b border-gray-300/[0.5] px-4 py-4 dark:border-gray-700/[0.5] lg:px-0">
-            <Link
-              href={"/admin/" + session.department.toLowerCase() + "/settings"}
-            >
+            <Link href={"/account/settings?user=Admin"}>
               <div className="group flex h-6 w-fit cursor-pointer items-center">
                 <div className="relative h-6 w-6">
                   <Image
@@ -221,9 +219,7 @@ export default function SideBarCLA({ session, path }) {
                 </div>
                 <h4
                   className={`${
-                    currentLink(
-                      "/admin/" + session.department.toLowerCase() + "/settings"
-                    )
+                    currentLink("/settings")
                       ? "text-black dark:text-white"
                       : "text-slate-700 dark:text-slate-400"
                   } mb-6 pl-4 group-hover:text-black dark:group-hover:text-white `}

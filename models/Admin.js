@@ -38,6 +38,35 @@ const AdminSchema = new mongoose.Schema({
     type: String,
     default: null,
   },
+  twofactor: {
+    enabled: {
+      type: Boolean,
+      default: false,
+    },
+    email: {
+      type: String,
+      default: null,
+    },
+  },
+  loginHistory: [
+    {
+      browser: {
+        type: String,
+      },
+      os: {
+        type: String,
+      },
+      location: {
+        type: String,
+      },
+      ipaddr: {
+        type: String,
+      },
+      when: {
+        type: Date,
+      },
+    },
+  ],
 });
 
 AdminSchema.pre("save", async function (next) {

@@ -360,7 +360,7 @@ export default function SideBar({ session, path }) {
             </Disclosure>
           </div>
           <div className="flex h-full w-full items-end border-b border-gray-300/[0.5] px-4 py-4 dark:border-gray-700/[0.5] lg:px-0">
-            <Link href="/admin/registrar/settings">
+            <Link href="/account/settings?user=Admin">
               <div className="group flex h-6 w-fit cursor-pointer items-center">
                 <div className="relative h-6 w-6">
                   <Image

@@ -202,6 +202,25 @@ const StudentSchema = new mongoose.Schema({
       },
     },
   ],
+  loginHistory: [
+    {
+      browser: {
+        type: String,
+      },
+      os: {
+        type: String,
+      },
+      location: {
+        type: String,
+      },
+      ipaddr: {
+        type: String,
+      },
+      when: {
+        type: Date,
+      },
+    },
+  ],
 });
 
 StudentSchema.pre("save", async function (next) {
