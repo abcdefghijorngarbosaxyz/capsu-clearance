@@ -72,6 +72,7 @@ export default function SetUp({ session }) {
       action: router.query.action,
     });
     if (data.message === "OK") {
+      localStorage.removeItem(session.username);
       setIsFetching(false);
       router.back();
     }
