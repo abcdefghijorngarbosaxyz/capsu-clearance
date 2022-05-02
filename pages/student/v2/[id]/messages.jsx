@@ -113,7 +113,6 @@ export default function Messages({ session, endpoint }) {
       }
     }
   }, [
-    query.sender,
     tabNotifications,
     messageAffairs,
     messageCollecting,
