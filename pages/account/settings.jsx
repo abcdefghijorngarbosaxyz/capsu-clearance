@@ -248,256 +248,274 @@ export default function Settings({
                       <div className="w-1/6"></div>
                       <div className="flex w-5/6 flex-col items-start space-y-4">
                         {historyList.length > 0 &&
-                          historyList.map((item, index) => (
-                            <div key={index}>
-                              {item.os.toLowerCase().includes("mac") && (
-                                <div className="flex w-full items-center text-sm">
-                                  <div className="relative h-6 w-6">
-                                    <Image
-                                      src="/assets/icons/devices/mac.png"
-                                      layout="fill"
-                                      objectFit="cover"
-                                    />
-                                  </div>
-                                  <div className="ml-2">
-                                    <div className="flex">
-                                      Mac&nbsp;&middot;&nbsp;
-                                      <div className="group relative">
-                                        <span>{item.location}</span>
-                                        <span className="absolute -top-8 left-2 hidden w-fit flex-col justify-start group-hover:flex">
-                                          <span className="relative top-2 rounded bg-blue-500 px-2 py-1 text-xs text-white">
-                                            {item.ipaddr}
+                          historyList
+                            .sort(
+                              (min, max) =>
+                                new Date(min.when) - new Date(max.when)
+                            )
+                            .reverse()
+                            .map((item, index) => (
+                              <div key={index}>
+                                {item.os.toLowerCase().includes("mac") && (
+                                  <div className="flex w-full items-center text-sm">
+                                    <div className="relative h-6 w-6">
+                                      <Image
+                                        src="/assets/icons/devices/mac.png"
+                                        layout="fill"
+                                        objectFit="cover"
+                                      />
+                                    </div>
+                                    <div className="ml-2">
+                                      <div className="flex">
+                                        Mac&nbsp;&middot;&nbsp;
+                                        <div className="group relative">
+                                          <span>{item.location}</span>
+                                          <span className="absolute -top-8 left-2 hidden w-fit flex-col justify-start group-hover:flex">
+                                            <span className="relative top-2 rounded bg-blue-500 px-2 py-1 text-xs text-white">
+                                              {item.ipaddr}
+                                            </span>
+                                            <svg
+                                              width="8"
+                                              height="8"
+                                              className="ml-2 mt-1 rotate-180 fill-blue-500"
+                                            >
+                                              <polygon points="5 0, 8 8, 0 10" />
+                                            </svg>
                                           </span>
-                                          <svg
-                                            width="8"
-                                            height="8"
-                                            className="ml-2 mt-1 rotate-180 fill-blue-500"
-                                          >
-                                            <polygon points="5 0, 8 8, 0 10" />
-                                          </svg>
-                                        </span>
+                                        </div>
+                                      </div>
+                                      <div className="text-gray-500">
+                                        {item.browser}&nbsp;&middot;&nbsp;
+                                        {index === 0 ? (
+                                          <span className="font-semibold text-green-500">
+                                            Active Now
+                                          </span>
+                                        ) : (
+                                          moment(new Date(item.when)).format(
+                                            "MMMM D [at] h:mm A"
+                                          )
+                                        )}
                                       </div>
                                     </div>
-                                    <div className="text-gray-500">
-                                      {item.browser}&nbsp;&middot;&nbsp;
-                                      {!index === 0 ? (
-                                        <span>Active Now</span>
-                                      ) : (
-                                        moment(new Date(item.when)).format(
-                                          "MMMM D [at] h:mm A"
-                                        )
-                                      )}
+                                  </div>
+                                )}
+                                {item.os.toLowerCase().includes("win") && (
+                                  <div className="flex w-full items-center text-sm">
+                                    <div className="relative h-6 w-6">
+                                      <Image
+                                        src="/assets/icons/devices/windows.png"
+                                        layout="fill"
+                                        objectFit="cover"
+                                      />
                                     </div>
-                                  </div>
-                                </div>
-                              )}
-                              {item.os.toLowerCase().includes("win") && (
-                                <div className="flex w-full items-center text-sm">
-                                  <div className="relative h-6 w-6">
-                                    <Image
-                                      src="/assets/icons/devices/windows.png"
-                                      layout="fill"
-                                      objectFit="cover"
-                                    />
-                                  </div>
-                                  <div className="ml-2">
-                                    <div className="flex">
-                                      Windows PC&nbsp;&middot;&nbsp;
-                                      <div className="group relative">
-                                        <span>{item.location}</span>
-                                        <span className="absolute -top-8 left-2 hidden w-fit flex-col justify-start group-hover:flex">
-                                          <span className="relative top-2 rounded bg-blue-500 px-2 py-1 text-xs text-white">
-                                            {item.ipaddr}
+                                    <div className="ml-2">
+                                      <div className="flex">
+                                        Windows PC&nbsp;&middot;&nbsp;
+                                        <div className="group relative">
+                                          <span>{item.location}</span>
+                                          <span className="absolute -top-8 left-2 hidden w-fit flex-col justify-start group-hover:flex">
+                                            <span className="relative top-2 rounded bg-blue-500 px-2 py-1 text-xs text-white">
+                                              {item.ipaddr}
+                                            </span>
+                                            <svg
+                                              width="8"
+                                              height="8"
+                                              className="ml-2 mt-1 rotate-180 fill-blue-500"
+                                            >
+                                              <polygon points="5 0, 8 8, 0 10" />
+                                            </svg>
                                           </span>
-                                          <svg
-                                            width="8"
-                                            height="8"
-                                            className="ml-2 mt-1 rotate-180 fill-blue-500"
-                                          >
-                                            <polygon points="5 0, 8 8, 0 10" />
-                                          </svg>
-                                        </span>
+                                        </div>
+                                      </div>
+                                      <div className="text-gray-500">
+                                        {item.browser}&nbsp;&middot;&nbsp;
+                                        {index === 0 ? (
+                                          <span className="font-semibold text-green-500">
+                                            Active Now
+                                          </span>
+                                        ) : (
+                                          moment(new Date(item.when)).format(
+                                            "MMMM D [at] h:mm A"
+                                          )
+                                        )}
                                       </div>
                                     </div>
-                                    <div className="text-gray-500">
-                                      {item.browser}&nbsp;&middot;&nbsp;
-                                      {!index === 0 ? (
-                                        <span>Active Now</span>
-                                      ) : (
-                                        moment(new Date(item.when)).format(
-                                          "MMMM D [at] h:mm A"
-                                        )
-                                      )}
+                                  </div>
+                                )}
+                                {item.os.toLowerCase().includes("android") && (
+                                  <div className="flex w-full items-center text-sm">
+                                    <div className="relative h-6 w-6">
+                                      <Image
+                                        src="/assets/icons/devices/android.png"
+                                        layout="fill"
+                                        objectFit="cover"
+                                      />
                                     </div>
-                                  </div>
-                                </div>
-                              )}
-                              {item.os.toLowerCase().includes("android") && (
-                                <div className="flex w-full items-center text-sm">
-                                  <div className="relative h-6 w-6">
-                                    <Image
-                                      src="/assets/icons/devices/android.png"
-                                      layout="fill"
-                                      objectFit="cover"
-                                    />
-                                  </div>
-                                  <div className="ml-2">
-                                    <div className="flex">
-                                      {item.os}&nbsp;&middot;&nbsp;
-                                      <div className="group relative">
-                                        <span>{item.location}</span>
-                                        <span className="absolute -top-8 left-2 hidden w-fit flex-col justify-start group-hover:flex">
-                                          <span className="relative top-2 rounded bg-blue-500 px-2 py-1 text-xs text-white">
-                                            {item.ipaddr}
+                                    <div className="ml-2">
+                                      <div className="flex">
+                                        {item.os}&nbsp;&middot;&nbsp;
+                                        <div className="group relative">
+                                          <span>{item.location}</span>
+                                          <span className="absolute -top-8 left-2 hidden w-fit flex-col justify-start group-hover:flex">
+                                            <span className="relative top-2 rounded bg-blue-500 px-2 py-1 text-xs text-white">
+                                              {item.ipaddr}
+                                            </span>
+                                            <svg
+                                              width="8"
+                                              height="8"
+                                              className="ml-2 mt-1 rotate-180 fill-blue-500"
+                                            >
+                                              <polygon points="5 0, 8 8, 0 10" />
+                                            </svg>
                                           </span>
-                                          <svg
-                                            width="8"
-                                            height="8"
-                                            className="ml-2 mt-1 rotate-180 fill-blue-500"
-                                          >
-                                            <polygon points="5 0, 8 8, 0 10" />
-                                          </svg>
-                                        </span>
+                                        </div>
+                                      </div>
+                                      <div className="text-gray-500">
+                                        {item.browser}&nbsp;&middot;&nbsp;
+                                        {index === 0 ? (
+                                          <span className="font-semibold text-green-500">
+                                            Active Now
+                                          </span>
+                                        ) : (
+                                          moment(new Date(item.when)).format(
+                                            "MMMM D [at] h:mm A"
+                                          )
+                                        )}
                                       </div>
                                     </div>
-                                    <div className="text-gray-500">
-                                      {item.browser}&nbsp;&middot;&nbsp;
-                                      {!index === 0 ? (
-                                        <span>Active Now</span>
-                                      ) : (
-                                        moment(new Date(item.when)).format(
-                                          "MMMM D [at] h:mm A"
-                                        )
-                                      )}
+                                  </div>
+                                )}
+                                {item.os.toLowerCase().includes("ios") && (
+                                  <div className="flex w-full items-center text-sm">
+                                    <div className="relative h-6 w-6">
+                                      <Image
+                                        src="/assets/icons/devices/iphone.png"
+                                        layout="fill"
+                                        objectFit="cover"
+                                      />
                                     </div>
-                                  </div>
-                                </div>
-                              )}
-                              {item.os.toLowerCase().includes("ios") && (
-                                <div className="flex w-full items-center text-sm">
-                                  <div className="relative h-6 w-6">
-                                    <Image
-                                      src="/assets/icons/devices/iphone.png"
-                                      layout="fill"
-                                      objectFit="cover"
-                                    />
-                                  </div>
-                                  <div className="ml-2">
-                                    <div className="flex">
-                                      {item.os}&nbsp;&middot;&nbsp;
-                                      <div className="group relative">
-                                        <span>{item.location}</span>
-                                        <span className="absolute -top-8 left-2 hidden w-fit flex-col justify-start group-hover:flex">
-                                          <span className="relative top-2 rounded bg-blue-500 px-2 py-1 text-xs text-white">
-                                            {item.ipaddr}
+                                    <div className="ml-2">
+                                      <div className="flex">
+                                        {item.os}&nbsp;&middot;&nbsp;
+                                        <div className="group relative">
+                                          <span>{item.location}</span>
+                                          <span className="absolute -top-8 left-2 hidden w-fit flex-col justify-start group-hover:flex">
+                                            <span className="relative top-2 rounded bg-blue-500 px-2 py-1 text-xs text-white">
+                                              {item.ipaddr}
+                                            </span>
+                                            <svg
+                                              width="8"
+                                              height="8"
+                                              className="ml-2 mt-1 rotate-180 fill-blue-500"
+                                            >
+                                              <polygon points="5 0, 8 8, 0 10" />
+                                            </svg>
                                           </span>
-                                          <svg
-                                            width="8"
-                                            height="8"
-                                            className="ml-2 mt-1 rotate-180 fill-blue-500"
-                                          >
-                                            <polygon points="5 0, 8 8, 0 10" />
-                                          </svg>
-                                        </span>
+                                        </div>
+                                      </div>
+                                      <div className="text-gray-500">
+                                        {item.browser}&nbsp;&middot;&nbsp;
+                                        {index === 0 ? (
+                                          <span className="font-semibold text-green-500">
+                                            Active Now
+                                          </span>
+                                        ) : (
+                                          moment(new Date(item.when)).format(
+                                            "MMMM D [at] h:mm A"
+                                          )
+                                        )}
                                       </div>
                                     </div>
-                                    <div className="text-gray-500">
-                                      {item.browser}&nbsp;&middot;&nbsp;
-                                      {!index === 0 ? (
-                                        <span>Active Now</span>
-                                      ) : (
-                                        moment(new Date(item.when)).format(
-                                          "MMMM D [at] h:mm A"
-                                        )
-                                      )}
+                                  </div>
+                                )}
+                                {item.os.toLowerCase().includes("linux") && (
+                                  <div className="flex w-full items-center text-sm">
+                                    <div className="relative h-6 w-6">
+                                      <Image
+                                        src="/assets/icons/devices/linux.png"
+                                        layout="fill"
+                                        objectFit="cover"
+                                      />
                                     </div>
-                                  </div>
-                                </div>
-                              )}
-                              {item.os.toLowerCase().includes("linux") && (
-                                <div className="flex w-full items-center text-sm">
-                                  <div className="relative h-6 w-6">
-                                    <Image
-                                      src="/assets/icons/devices/linux.png"
-                                      layout="fill"
-                                      objectFit="cover"
-                                    />
-                                  </div>
-                                  <div className="ml-2">
-                                    <div className="flex">
-                                      Linux&nbsp;&middot;&nbsp;
-                                      <div className="group relative">
-                                        <span>{item.location}</span>
-                                        <span className="absolute -top-8 left-2 hidden w-fit flex-col justify-start group-hover:flex">
-                                          <span className="relative top-2 rounded bg-blue-500 px-2 py-1 text-xs text-white">
-                                            {item.ipaddr}
+                                    <div className="ml-2">
+                                      <div className="flex">
+                                        Linux&nbsp;&middot;&nbsp;
+                                        <div className="group relative">
+                                          <span>{item.location}</span>
+                                          <span className="absolute -top-8 left-2 hidden w-fit flex-col justify-start group-hover:flex">
+                                            <span className="relative top-2 rounded bg-blue-500 px-2 py-1 text-xs text-white">
+                                              {item.ipaddr}
+                                            </span>
+                                            <svg
+                                              width="8"
+                                              height="8"
+                                              className="ml-2 mt-1 rotate-180 fill-blue-500"
+                                            >
+                                              <polygon points="5 0, 8 8, 0 10" />
+                                            </svg>
                                           </span>
-                                          <svg
-                                            width="8"
-                                            height="8"
-                                            className="ml-2 mt-1 rotate-180 fill-blue-500"
-                                          >
-                                            <polygon points="5 0, 8 8, 0 10" />
-                                          </svg>
-                                        </span>
+                                        </div>
+                                      </div>
+                                      <div className="text-gray-500">
+                                        {item.browser}&nbsp;&middot;&nbsp;
+                                        {index === 0 ? (
+                                          <span className="font-semibold text-green-500">
+                                            Active Now
+                                          </span>
+                                        ) : (
+                                          moment(new Date(item.when)).format(
+                                            "MMMM D [at] h:mm A"
+                                          )
+                                        )}
                                       </div>
                                     </div>
-                                    <div className="text-gray-500">
-                                      {item.browser}&nbsp;&middot;&nbsp;
-                                      {!index === 0 ? (
-                                        <span>Active Now</span>
-                                      ) : (
-                                        moment(new Date(item.when)).format(
-                                          "MMMM D [at] h:mm A"
-                                        )
-                                      )}
+                                  </div>
+                                )}
+                                {item.os.toLowerCase().includes("unkown") && (
+                                  <div className="flex w-full items-center text-sm">
+                                    <div className="relative h-6 w-6">
+                                      <Image
+                                        src="/assets/icons/devices/unkown.png"
+                                        layout="fill"
+                                        objectFit="cover"
+                                      />
                                     </div>
-                                  </div>
-                                </div>
-                              )}
-                              {item.os.toLowerCase().includes("unkown") && (
-                                <div className="flex w-full items-center text-sm">
-                                  <div className="relative h-6 w-6">
-                                    <Image
-                                      src="/assets/icons/devices/unkown.png"
-                                      layout="fill"
-                                      objectFit="cover"
-                                    />
-                                  </div>
-                                  <div className="ml-2">
-                                    <div className="flex">
-                                      Device type unkown&nbsp;&middot;&nbsp;
-                                      <div className="group relative">
-                                        <span>{item.location}</span>
-                                        <span className="absolute -top-8 left-2 hidden w-fit flex-col justify-start group-hover:flex">
-                                          <span className="relative top-2 rounded bg-blue-500 px-2 py-1 text-xs text-white">
-                                            {item.ipaddr}
+                                    <div className="ml-2">
+                                      <div className="flex">
+                                        Device type unkown&nbsp;&middot;&nbsp;
+                                        <div className="group relative">
+                                          <span>{item.location}</span>
+                                          <span className="absolute -top-8 left-2 hidden w-fit flex-col justify-start group-hover:flex">
+                                            <span className="relative top-2 rounded bg-blue-500 px-2 py-1 text-xs text-white">
+                                              {item.ipaddr}
+                                            </span>
+                                            <svg
+                                              width="8"
+                                              height="8"
+                                              className="ml-2 mt-1 rotate-180 fill-blue-500"
+                                            >
+                                              <polygon points="5 0, 8 8, 0 10" />
+                                            </svg>
                                           </span>
-                                          <svg
-                                            width="8"
-                                            height="8"
-                                            className="ml-2 mt-1 rotate-180 fill-blue-500"
-                                          >
-                                            <polygon points="5 0, 8 8, 0 10" />
-                                          </svg>
-                                        </span>
+                                        </div>
+                                      </div>
+                                      <div className="text-gray-500">
+                                        {item.browser}&nbsp;&middot;&nbsp;
+                                        {index === 0 ? (
+                                          <span className="font-semibold text-green-500">
+                                            Active Now
+                                          </span>
+                                        ) : (
+                                          moment(new Date(item.when)).format(
+                                            "MMMM D [at] h:mm A"
+                                          )
+                                        )}
                                       </div>
                                     </div>
-                                    <div className="text-gray-500">
-                                      {item.browser}&nbsp;&middot;&nbsp;
-                                      {!index === 0 ? (
-                                        <span>Active Now</span>
-                                      ) : (
-                                        moment(new Date(item.when)).format(
-                                          "MMMM D [at] h:mm A"
-                                        )
-                                      )}
-                                    </div>
                                   </div>
-                                </div>
-                              )}
-                            </div>
-                          ))}
+                                )}
+                              </div>
+                            ))}
                       </div>
                     </div>
                   </div>
