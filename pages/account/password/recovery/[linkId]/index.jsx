@@ -6,6 +6,7 @@ import Image from "next/image";
 import { CheckCircleIcon, XIcon } from "@heroicons/react/solid";
 import Spinner from "../../../../../components/extras/Spinner";
 import { getCsrfToken, getSession, signIn } from "next-auth/react";
+import Head from "next/head";
 
 export default function RecoveryPassword({ valid, username, csrfToken }) {
   const [finished, setFinished] = useState(false);
@@ -39,6 +40,12 @@ export default function RecoveryPassword({ valid, username, csrfToken }) {
   };
   return (
     <>
+      <Head>
+        <title>
+          {valid ? "Set New Password" : "Link broken or expired"}&nbsp;| Online
+          Students&apos; Clearance System
+        </title>
+      </Head>
       <div className="flex h-screen w-full items-center justify-center">
         <TopBar />
         {valid ? (
